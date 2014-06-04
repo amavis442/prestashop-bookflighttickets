@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+        <module>
+            <name>booking</name>
+            <displayName><![CDATA[Booking]]></displayName>
+            <version><![CDATA[0.4]]></version>
+            <description><![CDATA[Booking with date input for departure and arrival.]]></description>
+            <author><![CDATA[Patrickswebsite.nl]]></author>
+            <tab><![CDATA[other]]></tab>
+	<confirmUninstall>Are you sure about removing these details?</confirmUninstall>
+            <is_configurable>0</is_configurable>
+            <need_instance>1</need_instance>
+	<limited_countries></limited_countries>
+        </module>

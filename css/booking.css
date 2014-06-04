@@ -1,0 +1,74 @@
+#bookingdiv {
+	min-width:100%;
+	max-width:100%;
+	background-color: #eee;
+	color: #4E0B0B;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+#bookingdiv p {
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+}
+
+#bookingform {
+	min-width:100%;
+	max-width:100%;
+	padding:2px 2px 0 2px;
+}
+
+#bookingform div {
+	min-width:98%;
+	max-width:98%;
+}
+
+#bookingform .select1 {
+	width:68%;
+	display:inline-block;
+}
+
+#bookingform input {
+	border:1px solid #4E0B0B;
+	line-height: 15px;
+	font-size: 14px;
+}
+
+#bookingform input[type=text] {
+	width:98%;
+}
+
+#bookingform .search {
+	padding: 5px 0 5px;
+	text-align:center;
+}
+
+#bookingform .submitbutton {
+	min-width:183px;
+	max-width:183px;
+	color: #4E0B0B;
+	height:32px;
+	background:url(/modules/booking/img/btn_bekijkhetaanbod.png) no-repeat;
+    cursor:pointer;
+    border: none;
+}
+
+#bookingform .submitbutton:hover {
+	//background:url(/modules/booking/img/btn_bekijkhetaanbod.png) no-repeat;
+	background-position: right top;
+}
+
+#flightdeparturedate,#flightreturndate {
+	display: block;
+	max-width:80px;
+	z-index:100;
+}
+
+.datePicker {
+	z-index:1000;
+	display:block;
+}
+
+.ui-autocomplete-loading {
+	background: white url('/themes/pame/img/ajax-loader.gif') right center no-repeat;
+}
