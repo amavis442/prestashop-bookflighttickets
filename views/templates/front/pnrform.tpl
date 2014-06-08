@@ -254,7 +254,7 @@ function checkForm()
     		<p class="required radio required">
     			<span>{l s='Geslacht'}<sup>*</sup></span>
     			{foreach from=$genders key=k item=gender}
-    				<input type="radio" name="Passenger[{$c}][id_gender]" id="Passenger_id_gender{$gender->id_gender}" value="{$gender->id_gender}" {if isset($smarty.post.id_gender) && $smarty.post.id_gender == $gender->id_gender}checked="checked"{/if} />
+    				<input type="radio" name="Passenger[{$c}][id_gender]" id="Passenger_id_gender{$gender->id_gender}" value="{$gender->id_gender}" {if isset($guestInformations.id_gender) && $guestInformations.id_gender == $gender->id_gender}checked="checked"{/if} />
     				<label for="Passenger_id_gender{$gender->id_gender}" class="top">{$gender->name}</label>
     			{/foreach}
     			<span id='Passenger_id_gender_{$c}_error'></span>
@@ -298,7 +298,7 @@ function checkForm()
     	   </p>
     	   <p class="required postcode text">
     		  <label for="Passenger_postcode_{$c}">{l s='Postcode '} <sup>*</sup></label>
-    		  <input type="text" class="text" name="Passenger[{$c}][postalcode]" id="Passenger_postalcode_{$c}" value="{if isset($guestInformations) && $guestInformations.postalcode}{$guestInformations.postcode}{/if}" onkeyup="$('#Passenger_postalcode_{$c}').val($('#Passenger_postalcode_{$c}').val().toUpperCase());" />
+    		  <input type="text" class="text" name="Passenger[{$c}][postalcode]" id="Passenger_postalcode_{$c}" value="{if isset($guestInformations) && $guestInformations.postcode}{$guestInformations.postcode}{/if}" onkeyup="$('#Passenger_postalcode_{$c}').val($('#Passenger_postalcode_{$c}').val().toUpperCase());" />
                 <span id='Passenger_postalcode_{$c}_error'></span>
             </p>
             <p class="required text">
