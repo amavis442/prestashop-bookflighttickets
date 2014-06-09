@@ -312,7 +312,9 @@ class AdminScheduleController extends ModuleAdminController
                 $product->description_short = array($id_lang => '');
                 $product->link_rewrite = array($id_lang => 'dummy-dummy');
                 $product->name = array($id_lang => '');
-                $product->id_category = array(0);
+                $product->id_category_default = 47;
+                //$product->id_category = array(47);
+                $product->id_category = array($product->id_category_default);
                 $product->id_color = array(0);
                 $product->quantity = $quantity;
                 $product->price = $price;
@@ -328,6 +330,9 @@ class AdminScheduleController extends ModuleAdminController
                 $product->id_schedule = Tools::getValue('id_schedule');
                 $product->name[$id_lang] = $kenmerk;
                 $product->add();
+                
+                $product->updateCategories(array_map('intval', $product->id_category));
+                
                 //quantity	
                 //minimal_quantity	
                 //price	
