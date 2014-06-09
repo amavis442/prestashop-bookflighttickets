@@ -60,11 +60,9 @@ class Booking extends Module
         if (!parent::install() ||
                 !$this->registerHook('header') ||
                 !$this->registerHook('displayBook') ||
-                !$this->registerHook('actionPaymentConfirmation') ||
                 !$this->registerHook('displayLeftColumn') ||
                 !$this->registerHook('displayAdminProductsExtra') ||
-                !$this->_createTab() ||
-                !Configuration::updateValue('PS_BOOKING_CAT_ID', 47) == false
+                !$this->_createTab()
         )
             return false;
 

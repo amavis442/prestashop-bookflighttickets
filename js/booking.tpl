@@ -80,19 +80,18 @@ $(document).ready(function () {
 		});
 	}
 
-	if ($('input#flightdeparturedate') != undefined) {
+	if ($('input#flightdeparturedate') !== undefined) {
 		$('input#flightdeparturedate').datepicker();
 		$('input#flightdeparturedate').datepicker("option", "minDate", new Date());
 	}
-	if ($('input#flightreturndate') != undefined) {
+	if ($('input#flightreturndate') !== undefined) {
 		$('input#flightreturndate').datepicker();
 		$('input#flightreturndate').datepicker("option", "minDate", new Date());
 	}
 
-	if ($('#flightfrom') != undefined) {
+	if ($('#flightfrom') !== undefined) {
 		$("#flightfrom")
 			.autocomplete(
-				//'{if $search_ssl == 1}{$link->getModuleLink('booking','Searchflight', true)|addslashes}{else}{$link->getModuleLink('booking','searchflight')|addslashes}{/if}', {
 				'/index.php?fc=module&module=booking&controller=Searchflight', {
 					dataType: "json",
 					minChars: 2,
@@ -128,7 +127,6 @@ $(document).ready(function () {
 	if ($('#flightto') != undefined) {
 		$("#flightto")
 			.autocomplete(
-				//'{if $search_ssl == 1}{$link->getModuleLink('booking','Searchflight', true)|addslashes}{else}{$link->getModuleLink('booking','searchflight')|addslashes}{/if}', {
 				'/index.php?fc=module&module=booking&controller=Searchflight', {
 					dataType: "json",
 					minChars: 2,
