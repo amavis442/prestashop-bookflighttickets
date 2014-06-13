@@ -65,7 +65,7 @@ class Schedule extends ObjectModel
 	{
 		$this->created = date('Y-m-d H:i:s');
 		$this->modified = date('Y-m-d H:i:s');
-
+                
 		return parent::add($autodate, $null_values);
 	}
 

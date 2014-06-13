@@ -10,7 +10,8 @@ require_once (dirname(__file__) . '/../../classes/Schedule.php');
 
 class AdminScheduleController extends ModuleAdminController
 {
-
+    public $id_schedule=null;
+    
     public function __construct()
     {
         $this->name = 'Schedule';
@@ -87,7 +88,11 @@ class AdminScheduleController extends ModuleAdminController
                 'width' => 'auto',
             ),
         );
-
+        
+        if (Tools::getValue('id_schedule')) {
+            $this->id_schedule = Tools::getValue('id_schedule');
+        } 
+        
         parent::__construct();
     }
 
@@ -185,7 +190,7 @@ class AdminScheduleController extends ModuleAdminController
      */
     public function renderForm()
     {
-        /* Check if object is loaded. In our case BookingInventory */
+        /* Check if object is loaded. In our case BookingSchedule */
         if (!($obj = $this->loadObject(true))) {
             return;
         }
@@ -248,9 +253,11 @@ class AdminScheduleController extends ModuleAdminController
                     'name' => 'traveltime',
                 ),
                 array(
-                    'type' => 'text',
-                    'label' => $this->l('Departure:'),
+                    'type' => 'datetime',
+                    'label' => $this->l('Departure date:'),
                     'name' => 'departure',
+                    'required' => true,
+                    //'value' => '02-02-2013 08:00:00'
                 ),
                 array(
                     'type' => 'text',
@@ -267,9 +274,67 @@ class AdminScheduleController extends ModuleAdminController
         return parent::renderForm();
     }
 
+    public function initToolbar()
+    {
+        parent::initToolbar();
+        
+        if ($this->display == 'edit' || $this->display == 'add') {
+            if ($this->tabAccess['edit']) {
+                $this->toolbar_btn['save'] = array(
+                    'short' => 'Save',
+                    'href' => '#',
+                    'desc' => $this->l('Save'),
+                );
+
+                $this->toolbar_btn['save-and-stay'] = array(
+                    'short' => 'SaveAndStay',
+                    'href' => '#',
+                    'desc' => $this->l('Save and stay'),
+                );
+            }
+            if ($this->tabAccess['add'] && $this->display != 'add') {
+                $this->toolbar_btn['duplicate'] = array(
+                    'short' => 'Duplicate',
+                    'desc' => $this->l('Duplicate'),
+                    'href' => $this->context->link->getAdminLink('AdminSchedule'). '&amp;id_schedule=' . (int) $this->id_schedule . '&amp;duplicatebooking_schedule'
+                    //'confirm' => 1,
+                    //'js' => 'if (confirm(\'' . $this->l('Also copy images') . ' ?\')) document.location = \'' . $this->context->link->getAdminLink('AdminProducts') . '&amp;id_product=' . (int) $product->id . '&amp;duplicateproduct\'; 
+                    //else document.location = \'' . $this->context->link->getAdminLink('AdminProducts') . '&amp;id_product=' . (int) $product->id . '&amp;duplicateproduct&amp;noimage=1\';'
+                );
+            }
+        }
+    }
+
     public function postProcess()
     {
+        if (Tools::isSubmit('duplicatebooking_schedule')) {
+            /* Oude data ophalen */
+            if (!($model = $this->loadObject(true))) {
+                return;
+            } 
+            unset($model->id_schedule);
+            unset($model->id);
+            $model->add();
+            
+            $sql = 'SELECT id_product FROM ' . _DB_PREFIX_ . 'product WHERE id_schedule = ' . Tools::getValue('id_schedule');
+            $id_product = Db::getInstance()->getValue($sql);
+            $product = new Product($id_product);
+            unset($product->id);
+            unset($product->id_product);
+            
+            $product->id_schedule =  $model->id;
+            $product->id_category = array($product->id_category_default);
+            $product->add();  
+            $product->updateCategories(array_map('intval', $product->id_category));
+            
+            //$_GET['id_schedule'] = $model->id_schedule;
+            
+            //$this->object = $model;
+            //$this->display = 'edit';
+        }
         parent::postProcess();
+        
+        
         /* We maken er ook een product van zodat het order systeem werkt. */
         /*
          * 1. Check of record moet worden toegevoegd of aangepast.
@@ -312,7 +377,7 @@ class AdminScheduleController extends ModuleAdminController
                 $product->description_short = array($id_lang => '');
                 $product->link_rewrite = array($id_lang => 'dummy-dummy');
                 $product->name = array($id_lang => '');
-                $product->id_category_default = 47;
+                $product->id_category_default = Configuration::getInt('PS_BOOKING_CAT_ID');
                 //$product->id_category = array(47);
                 $product->id_category = array($product->id_category_default);
                 $product->id_color = array(0);
@@ -330,9 +395,9 @@ class AdminScheduleController extends ModuleAdminController
                 $product->id_schedule = Tools::getValue('id_schedule');
                 $product->name[$id_lang] = $kenmerk;
                 $product->add();
-                
+
                 $product->updateCategories(array_map('intval', $product->id_category));
-                
+
                 //quantity	
                 //minimal_quantity	
                 //price	
@@ -343,12 +408,33 @@ class AdminScheduleController extends ModuleAdminController
                 //	text_fields	active	redirect_type	id_product_redirected	available_for_order	available_date	condition	show_price	indexed	visibility	cache_is_pack	cache_has_attachments	is_virtual	cache_default_attribute	date_add	date_upd	advanced_stock_management	id_schedule
             }
         }
+
+        //$this->context->controller->addJS(array(_PS_JS_DIR_.'jquery/plugins/timepicker/jquery-ui-timepicker-addon.js'));
+        //$this->addJS(array(_PS_JS_DIR_.'jquery/plugins/timepicker/jquery-ui-timepicker-addon.js'));
+    }
+
+    public function setMedia()
+    {
+        $this->addJquery();
+        $this->addJqueryUI('ui.datepicker');
+        $this->addJqueryUI('ui.slider');
+
+        $this->addJS(array(_PS_JS_DIR_ . 'jquery/plugins/timepicker/jquery-ui-timepicker-addon.js'));
+        $this->addCSS(array(_PS_JS_DIR_ . 'jquery/plugins/timepicker/jquery-ui-timepicker-addon.css',));
+
+        parent::setMedia();
+    }
+
+    public function processDuplicate()
+    {
+        
     }
 
     public function displayDuplicateLink($token, $id)
     {
         $helper = new HelperList();
-        
+
         return $helper->displayDuplicateLink($token, $id);
     }
+
 }

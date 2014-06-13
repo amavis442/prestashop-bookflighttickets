@@ -241,7 +241,7 @@ class BookingInstall
             $category->add();
             
             //$category->id;
-            Configuration::updateValue('BOOKING_CAT', (int)$category->id);
+            Configuration::updateValue('PS_BOOKING_CAT_ID', (int)$category->id);
             
         }
     }
@@ -251,7 +251,7 @@ class BookingInstall
      */
     public function updateConfiguration($paypal_version)
     {
-        Configuration::updateValue('BOOKING_CAT', 0);
+        Configuration::updateValue('PS_BOOKING_CAT_ID', 0);
     }
 
     /**
