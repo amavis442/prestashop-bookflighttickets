@@ -326,11 +326,7 @@ class AdminScheduleController extends ModuleAdminController
             $product->id_category = array($product->id_category_default);
             $product->add();  
             $product->updateCategories(array_map('intval', $product->id_category));
-            
-            //$_GET['id_schedule'] = $model->id_schedule;
-            
-            //$this->object = $model;
-            //$this->display = 'edit';
+            Tools::redirectAdmin($this->context->link->getAdminLink('AdminSchedule'). '&update'.$this->table.'&id_schedule=' . (int) $model->id);
         }
         parent::postProcess();
         
