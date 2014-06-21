@@ -62,6 +62,8 @@ class Booking extends Module
                 !$this->registerHook('displayBook') ||
                 !$this->registerHook('displayLeftColumn') ||
                 !$this->registerHook('displayAdminProductsExtra') ||
+                !$this->registerHook('displayDatePicker') ||
+                !$this->registerHook('actionCartSave') ||
                 !$this->_createTab()
         )
             return false;
@@ -178,6 +180,35 @@ class Booking extends Module
         $this->context->controller->addCSS(($this->_path) . 'css/booking.css', 'screen');
     }
 
+    /**
+     * For use in template {hook h='displayDatePicker' product=$product}
+     * 
+     * @param type $params
+     * @return type
+     */   
+    public function hookDisplayDatePicker($params)
+    {
+        $product = $params['product'];
+        $data = array('id_product'=>$product->id,'token'=>Tools::getToken());
+        
+        $hasCheckOutDate = false;
+        if (strtolower($product->category) == 'luchthaven-vervoer-boeken') {
+            $hasCheckOutDate = true;
+        }
+        $json = Tools::jsonEncode($data);
+        
+        $this->context->smarty->assign('hasCheckOutDate',$hasCheckOutDate);
+        $this->context->smarty->assign('jsonBooking',$json);
+        return $this->display(__FILE__, 'datepicker.tpl');
+    }
+    
+    public function hookActionCartSave($params) {
+        error_log(print_r($argv,true)."\nParams\n" . print_r($params,true) . "\nPost\n". print_r($_POST, true) . "\nGet\n" . print_r($_GET, true), 3, dirname(__FILE__).'/booking_cart.log');
+    
+        return true;
+    }
+    
+    
     public function hookDisplayBook($params)
     {
         if (!$this->active)

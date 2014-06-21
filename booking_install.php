@@ -22,7 +22,8 @@ class BookingInstall
                 !$this->createReservationDetails() ||
                 !$this->createRsplink() ||
                 !$this->alterProduct() ||
-                !$this->createCategory()
+                !$this->createCategory() ||
+                !$this->createProductBooking()
         ) {
             return false;
         }
@@ -218,6 +219,28 @@ class BookingInstall
         return true;
     }
 
+    private function createProductBooking()
+    {
+        /* Set database */
+        if (!Db::getInstance()->Execute('
+		CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'booking_productbooking` (
+			`id_productbooking` INT AUTO_INCREMENT,
+			`id_order` int(10) unsigned NOT NULL,
+                        `id_cart` int(10) unsigned NOT NULL,
+                        `id_product` int(10) unsigned NOT NULL,
+                        `checkin_date` date NOT NULL,
+                        `checkout_date` date NOT NULL,
+                        `token` varchar(255) not null,
+			`date_add` datetime NOT NULL,
+                        `date_upd` datetime NOT NULL,
+			PRIMARY KEY (`id_productbooking`),
+			INDEX(id_order, id_product,id_cart)
+		) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8')) {
+            return false;
+        }
+        return true;
+    }
+    
     private function alterProduct()
     {
         if (!Db::getInstance()->Execute('ALTER TABLE `' . _DB_PREFIX_ . 'product` 
