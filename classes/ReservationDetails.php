@@ -3,6 +3,8 @@ class ReservationDetails extends ObjectModel
 {   
     public $id_reservationdetails; //	int(11)			Nee	Geen	AUTO_INCREMENT	 Veranderen Veranderen	 Verwijderen Verwijderen	 Meer Geef meer acties weer
     public $id_cart;
+    public $id_product;
+    public $id_schedule;
     public $gender; //	enum('Male', 'Female')	utf8_general_ci		Nee	Geen		 Veranderen Veranderen	 Verwijderen Verwijderen	 Meer Geef meer acties weer
     public $firstname; //	varchar(255)	utf8_general_ci		Nee	Geen		 Veranderen Veranderen	 Verwijderen Verwijderen	 Meer Geef meer acties weer
     public $surname; //	varchar(255)	utf8_general_ci		Nee	Geen		 Veranderen Veranderen	 Verwijderen Verwijderen	 Meer Geef meer acties weer
@@ -13,14 +15,15 @@ class ReservationDetails extends ObjectModel
     public $postalcode; //	varchar(20)	utf8_general_ci		Nee	Geen		 Veranderen Veranderen	 Verwijderen Verwijderen	 Meer Geef meer acties weer
     public $place; //	varchar(255)	utf8_general_ci		Nee	Geen		 Veranderen Veranderen	 Verwijderen Verwijderen	 Meer Geef meer acties weer
     public $country; //	varchar(255)	utf8_general_ci		Nee	Geen		 Veranderen Veranderen	 Verwijderen Verwijderen	 Meer Geef meer acties weer
-    public $modified; //	timestamp		on update CURRENT_TIMESTAMP	Nee	CURRENT_TIMESTAMP	ON UPDATE CURRENT_TIMESTAMP	 Veranderen Veranderen	 Verwijderen Verwijderen	 Meer Geef meer acties weer
-    public $created; //
+    public $identification_number;
+    public $date_upd;
+    public $date_add;
     
     
     
     
     public static $definition = array(
-        'table' => 'booking_reservationdetails',
+        'table' => 'bookflighttickets_reservationdetails',
         'primary' => 'id_reservationdetails',
         'multilang' => false,
     
@@ -29,6 +32,9 @@ class ReservationDetails extends ObjectModel
                 'type' => self::TYPE_INT,
             ),
             'id_cart' => array(
+                'type' => self::TYPE_INT,
+            ),
+            'id_product' => array(
                 'type' => self::TYPE_INT,
             ),
             'id_schedule' => array(
@@ -73,10 +79,14 @@ class ReservationDetails extends ObjectModel
                 'type' => self::TYPE_STRING,
                 'size'=>255,
             ),
-            'modified' => array(
+            'identification_number' => array(
+                'type' => self::TYPE_STRING,
+                'size'=>255,
+            ),
+            'date_upd' => array(
                 'type' => self::TYPE_DATE
             ),
-            'created' => array(
+            'date_add' => array(
                 'type' => self::TYPE_DATE
             ),
         ),

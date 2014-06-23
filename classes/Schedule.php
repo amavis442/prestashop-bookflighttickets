@@ -6,23 +6,24 @@
  * deze niet gebruikt :(.
  */
 
-//require_once (dirname(__file__) . '/CDbCriteria.php');
-//require_once (dirname(__file__) . '/BaseModel.php');
 require_once (dirname(__file__) . '/ScheduleHelper.php');
+require_once (dirname(__file__) . '/Location.php');
+require_once (dirname(__file__) . '/Route.php');
+require_once (dirname(__file__) . '/Inventory.php');
 
 class Schedule extends ObjectModel
 {
 	public $id_schedule;
+        public $id_route;
 	public $id_inventory;
-	public $id_route;
 	public $traveltime;
 	public $departure;
 	public $modified;
-	public $created;
-	public $price;
+	public $date_upd;
+	public $date_add;
 
 	public static $definition = array(
-		'table' => 'booking_schedule',
+		'table' => 'bookflighttickets_schedule',
 		'primary' => 'id_schedule',
 		'multilang' => false,
 
@@ -43,10 +44,10 @@ class Schedule extends ObjectModel
 				'type' => self::TYPE_STRING,
 				'size' => 19,
 			),
-			'modified' => array(
+			'date_upd' => array(
 				'type' => self::TYPE_DATE
 			),
-			'created' => array(
+			'date_add' => array(
 				'type' => self::TYPE_DATE
 			),
 		),
@@ -77,18 +78,20 @@ class Schedule extends ObjectModel
 	
 	public static function getData($id_schedule)
 	{
-	   $sql = sprintf('SELECT s.*,i.designation,i.seats,r.id_location_1,r.id_location_2 FROM %s s  LEFT JOIN %s r ON (s.id_route = r.id_route)
+	   $sql = sprintf('SELECT s.*,i.designation,i.seats,r.id_location_1,
+                                r.id_location_2 FROM %s s  LEFT JOIN %s r ON (s.id_route = r.id_route)
 	                   LEFT JOIN %s i ON (s.id_inventory = i.id_inventory) WHERE s.id_schedule = %d',
-	                   _DB_PREFIX_.'booking_schedule',
-	                   _DB_PREFIX_.'booking_route',
-			           _DB_PREFIX_.'booking_inventory',
+	                   _DB_PREFIX_.self::$definition['table'],
+	                   _DB_PREFIX_.Route::$definition['table'],
+			           _DB_PREFIX_.Inventory::$definition['table'],
 			             $id_schedule);
+           
 	  $row = Db::getInstance()->getRow($sql);
 	  $id_location_1 = $row['id_location_1'];
 	  $id_location_2 = $row['id_location_2'];
-	  $sql = 'SELECT location FROM '._DB_PREFIX_.'booking_location WHERE id_location = '.$id_location_1;
+	  $sql = 'SELECT location FROM '._DB_PREFIX_.Location::$definition['table']. ' WHERE id_location = '.$id_location_1;
 	  $row['origin'] = Db::getInstance()->getValue($sql);
-	  $sql = 'SELECT location FROM '._DB_PREFIX_.'booking_location WHERE id_location = '.$id_location_2;
+	  $sql = 'SELECT location FROM '._DB_PREFIX_.Location::$definition['table'].' WHERE id_location = '.$id_location_2;
 	  $row['destination'] = Db::getInstance()->getValue($sql);
 	   
 	  $row['arrival'] = ScheduleHelper::getArrival($row['departure'], $row['traveltime']); 

@@ -11,12 +11,12 @@ class Inventory extends ObjectModel
 	public $id_inventory;
 	public $designation;
 	public $seats;
-	public $modified;
-	public $created;
+	public $date_upd;
+	public $date_add;
 
 
 	public static $definition = array(
-		'table' => 'booking_inventory',
+		'table' => 'bookflighttickets_inventory',
 		'primary' => 'id_inventory',
 		'multilang' => false,
 
@@ -31,32 +31,18 @@ class Inventory extends ObjectModel
 			'seats' => array(
 				'type' => self::TYPE_INT,
 			),
-			'modified' => array(
+			'date_upd' => array(
 				'type' => self::TYPE_DATE
 			),
-			'created' => array(
+			'date_add' => array(
 				'type' => self::TYPE_DATE
 			),
 		),
 	);
 
-	public function add($autodate = true, $null_values = false)
-	{
-		$this->created = date('Y-m-d H:i:s');
-		$this->modified = date('Y-m-d H:i:s');
-
-		return parent::add($autodate, $null_values);
-	}
-
-	public function update($null_values = false)
-	{
-		$this->modified = date('Y-m-d H:i:s');
-		return parent::update($null_values);
-	}
-
 	public static function getDesignation($id_inventory)
 	{
-	    $sql = sprintf('SELECT designation,seats FROM %s WHERE id_inventory = %d',_DB_PREFIX_.'booking_inventory',$id_inventory);
+	    $sql = sprintf('SELECT designation,seats FROM %s WHERE id_inventory = %d',_DB_PREFIX_.self::$definition['table'],$id_inventory);
 	    return Db::getInstance()->getRow($sql);
 	}
 }

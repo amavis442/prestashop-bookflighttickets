@@ -1,4 +1,6 @@
 <?php
+require_once (dirname(__file__) . '/Route.php');
+
 class RouteHelper
 {
     private $origin;
@@ -11,7 +13,7 @@ class RouteHelper
 
     public function __construct()
     {
-        $this->table_route = _DB_PREFIX_.'booking_route';
+        $this->table_route = _DB_PREFIX_.Route::$definition['table'];
     }
     
     public function setOrigin($id)
@@ -25,7 +27,7 @@ class RouteHelper
     public function setDestination($id)
     {
         if (!is_integer($id)) {
-            throw new Exception('Einbestemming moet een integer zijn. Opgegeven: '.$id);
+            throw new Exception('Eindbestemming moet een integer zijn. Opgegeven: '.$id);
         }
     
         $this->destination = $id;

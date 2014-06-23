@@ -1,43 +1,17 @@
 <?php
-
-/*
- * 2007-2013 PrestaShop
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Academic Free License (AFL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/afl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@prestashop.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
- * versions in the future. If you wish to customize PrestaShop for your
- * needs please refer to http://www.prestashop.com for more information.
- *
- *  @author PrestaShop SA <contact@prestashop.com>
- *  @copyright  2007-2013 PrestaShop SA
- *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
- *  International Registered Trademark & Property of PrestaShop SA
- */
-
 /**
  * @since 1.5.0
  */
 if (!defined('_PS_VERSION_'))
     exit;
-include('/../../../config/config.inc.php');
 
 include(dirname(__FILE__) . '/../../classes/RouteHelper.php');
 include(dirname(__FILE__) . '/../../classes/ScheduleHelper.php');
+require_once (dirname(__file__) . '/../../classes/Location.php');
 require_once (dirname(__file__) . '/../../classes/Schedule.php');
 include(dirname(__FILE__) . '/../../classes/MyGender.php');
 
-class bookingPnrModuleFrontController extends ModuleFrontController
+class bookflightticketsPnrModuleFrontController extends ModuleFrontController
 {
 
     public $ajax_search;
@@ -64,8 +38,6 @@ class bookingPnrModuleFrontController extends ModuleFrontController
     {
         parent::__construct();
         $this->className = 'Schedule';
-
-        $this->context = Context::getContext();
     }
 
     public function init()
@@ -167,7 +139,7 @@ class bookingPnrModuleFrontController extends ModuleFrontController
 
         if ($this->ajax_search) {
             $query = Tools::replaceAccentedChars(urldecode(Tools::getValue('q')));
-            $sql = sprintf('SELECT id_location as id,location,country,code FROM %1$s WHERE (location LIKE \'%2$s%%\' or Country LIKE \'%2$s%%\' OR Code Like \'%2$s%%\') LIMIT %3$d', _DB_PREFIX_ . 'booking_location', $query, $this->max_rows);
+            $sql = sprintf('SELECT id_location as id,location,country,code FROM %1$s WHERE (location LIKE \'%2$s%%\' or Country LIKE \'%2$s%%\' OR Code Like \'%2$s%%\') LIMIT %3$d', _DB_PREFIX_ . Location::$definition['table'], $query, $this->max_rows);
             $result = Db::getInstance()->executeS($sql);
             $searchResults = $result;
             die(Tools::jsonEncode($searchResults));

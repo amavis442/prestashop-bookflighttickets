@@ -5,12 +5,12 @@ class Price extends ObjectModel
     public $id_schedule;
     public $valid_until;
     public $price;
-    public $modified;
-    public $created;
+    public $date_upd;
+    public $date_add;
     
     
     public static $definition = array(
-        'table' => 'booking_price',
+        'table' => 'bookflighttickets_price',
         'primary' => 'id_price',
         'multilang' => false,
     
@@ -28,10 +28,10 @@ class Price extends ObjectModel
                 'type' => self::TYPE_STRING,
                 'size' => 6,
             ),
-            'modified' => array(
+            'date_upd' => array(
                 'type' => self::TYPE_DATE
             ),
-            'created' => array(
+            'date_add' => array(
                 'type' => self::TYPE_DATE
             ),
         ),

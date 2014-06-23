@@ -1,0 +1,14 @@
+insert INTO ps_bookflighttickets_location 
+select id_location,location,country,code,created as date_add, modified as date_upd from ps_booking_location;
+
+insert INTO ps_bookflighttickets_route 
+select id_route,id_location_1,id_location_2,code,'order',created as date_add, modified as date_upd from ps_booking_route;
+
+insert INTO ps_bookflighttickets_inventory 
+select id_inventory,designation,seats,created as date_add, modified as date_upd from ps_booking_inventory;
+
+insert INTO ps_bookflighttickets_schedule 
+select id_schedule,id_route,id_inventory,traveltime,departure,created as date_add, modified as date_upd from ps_booking_schedule;
+
+insert INTO ps_bookflighttickets_schedule_product 
+select 0,id_schedule,id_product,NOW() as dete_add,NOW() as date_upd from ps_product;

@@ -219,10 +219,10 @@ div.info .title_block {
     
     
 <p>    
-<form method='post' action='{$link->getModuleLink('booking','Reservation')}'>
+<form method='post' action='{$link->getModuleLink('bookflighttickets','Reservation')}'>
 <input type='submit' class="button_large" id='makeReservation' name='makeReservation' value="{l s='Payment >'}" />
 <!--  // 
-<a href='{$link->getModuleLink('booking','Reservation')}' style='color:white' class="button_large" >Reserveren</a>
+<a href='{$link->getModuleLink('bookflighttickets','Reservation')}' style='color:white' class="button_large" >Reserveren</a>
 // -->
 </form>
 </p>

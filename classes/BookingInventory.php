@@ -13,7 +13,7 @@
 	public $created;
 
 	public static $definition = array(
-	    'table' => 'booking_inventory',
+	    'table' => 'bookflighttickets_inventory',
 	    'primary' => 'id_booking_inventory',
 	    'multilang' => false,
 

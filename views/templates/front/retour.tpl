@@ -132,7 +132,7 @@ function fillData(id1,id2,id3,id4,frm) {
 }
 </script>
 
-<form method="post" action="{$link->getModuleLink('booking', 'Pnr', [], true)|escape:'html'}" class="block" id="bookingform">
+<form method="post" action="{$link->getModuleLink('bookflighttickets', 'Pnr', [], true)|escape:'html'}" class="block" id="bookflightticketsform">
     <input type='hidden' name="booking_dep" id="booking_dep" value=""/>
     <input type='hidden' name="booking_ret" id="booking_ret" value=""/>
     <input type='hidden' name='token' value='{$token}' />

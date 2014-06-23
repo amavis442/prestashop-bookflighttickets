@@ -16,7 +16,7 @@ class AdminLocationController extends ModuleAdminController
 	    /**
 	     * The name of the database table so we can extract data.
 	     */
-	    $this->table = 'booking_location';
+	    $this->table = Location::$definition['table'];
 	    /**
 	     * AR Class
 	     */
@@ -75,11 +75,11 @@ class AdminLocationController extends ModuleAdminController
     				'title' => $this->l('Code'),
     				'width' => 'auto',
     				),
-	    		'modified' => array(
+	    		'date_upd' => array(
 	    				'title' => $this->l('Modified'),
 	    				'width' => 'auto',
 	    				),
-	    		'created' => array(
+	    		'date_add' => array(
 	    				'title' => $this->l('Created'),
 	    				'width' => 'auto',
 	    				),

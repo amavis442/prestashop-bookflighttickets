@@ -1,6 +1,6 @@
-<div id="bookingdiv" class="block">
+<div id="bookflightticketsdiv" class="block">
 	<p class="title_block">Zoek je vliegtickets</p>
-	<form method="post" action="{$link->getModuleLink('booking', 'Searchflight', [], true)|escape:'html'}" class="block" id="bookingform">
+	<form method="post" action="{$link->getModuleLink('bookflighttickets', 'Searchflight', [], true)|escape:'html'}" class="block" id="bookflightticketsform">
 	<input type='hidden' name='fl_l1' id='fl_l1' value='{if (isset($flightdata)) }{$flightdata.fl_l1}{/if}' />
 	<input type='hidden' name='fl_l2' id='fl_l2' value='{if (isset($flightdata)) }{$flightdata.fl_l2}{/if}' />
 	 
@@ -35,4 +35,4 @@
 	<div class="search"><input type="submit" value="" name="btnBookingAanbod" id="btnBookingAanbod" class="submitbutton"></div>
 	</form>
 </div>
-{include file="$self/js/booking.tpl"}
+{include file="$self/js/bookflighttickets.tpl"}

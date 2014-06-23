@@ -3,13 +3,13 @@
 if (typeof baseUri === "undefined" && typeof baseDir !== "undefined")
 	baseUri = baseDir;
 
-var booking = {
+var bookflighttickets = {
 	update: function (id_product) {
 
-		var arrival = $('#booking_from_' + id_product).val();
-		var depart = $('#booking_to_' + id_product).val();
+		var arrival = $('#bookflighttickets_from_' + id_product).val();
+		var depart = $('#bookflighttickets_to_' + id_product).val();
 
-		var bookURL = baseDir + 'modules/booking/ajax.php';
+		var bookURL = baseDir + 'modules/bookflighttickets/ajax.php';
 		var diff = 1;
 
 		if (arrival != '' && depart != '' && !(typeof arrival === 'undefined') && !(typeof depart === 'undefined')) {
@@ -24,7 +24,7 @@ var booking = {
 					var json = $.parseJSON(jsonData);
 					$('input:[name=quantity_' + id_product + '_0_0_0]').val(json.diff);
 
-					if (!$('#booking_from_' + id_product).hasClass('vliegtickets') && json.diff > 0) {
+					if (!$('#bookflighttickets_from_' + id_product).hasClass('vliegtickets') && json.diff > 0) {
 						updateQty(json.diff, true, 'input:[name=quantity_' + id_product + '_0_0_0]');
 					}
 				},
@@ -33,7 +33,7 @@ var booking = {
 				}
 			});
 		} else if (arrival != '' && !(typeof arrival === 'undefined')) {
-			if ($('#booking_from_' + id_product).hasClass('snappers') || $('#booking_from_' + id_product).hasClass('arrangementen')) {
+			if ($('#bookflighttickets_from_' + id_product).hasClass('snappers') || $('#bookflighttickets_from_' + id_product).hasClass('arrangementen')) {
 				$.ajax({
 					headers: { "cache-control": "no-cache" },
 					url: bookURL + '?rand=' + new Date().getTime(),
@@ -49,7 +49,7 @@ var booking = {
 					}
 				});
 			}
-			$('#booking_to_' + id_product).datepicker("option", "minDate", arrival);
+			$('#bookflighttickets_to_' + id_product).datepicker("option", "minDate", arrival);
 		}
 	}
 }
@@ -60,8 +60,8 @@ $(document).ready(function () {
 	var names = '';
 	var mindate = new Date();
 
-	if ($('.booking_date') != undefined) {
-		$('.booking_date').each(function () {
+	if ($('.bookflighttickets_date') != undefined) {
+		$('.bookflighttickets_date').each(function () {
 			names += this.name + ' ';
 			var ids = $(this).attr('id').split('_');
 
@@ -71,7 +71,7 @@ $(document).ready(function () {
 				numberOfMonths: 3,
 				onClose: function (selectedDate) {
 					/* Ajax class naar de juiste controller graag */
-					booking.update(ids[2]);
+					bookflighttickets.update(ids[2]);
 				}
 			});
 			//$( '#' + this.id).setDefaults($.datepicker.regional[ "nl" ]);
@@ -92,7 +92,7 @@ $(document).ready(function () {
 	if ($('#flightfrom') !== undefined) {
 		$("#flightfrom")
 			.autocomplete(
-				'/index.php?fc=module&module=booking&controller=Searchflight', {
+				'/index.php?fc=module&module=bookflighttickets&controller=Searchflight', {
 					dataType: "json",
 					minChars: 2,
 					max: 10,
@@ -127,7 +127,7 @@ $(document).ready(function () {
 	if ($('#flightto') != undefined) {
 		$("#flightto")
 			.autocomplete(
-				'/index.php?fc=module&module=booking&controller=Searchflight', {
+				'/index.php?fc=module&module=bookflighttickets&controller=Searchflight', {
 					dataType: "json",
 					minChars: 2,
 					max: 10,

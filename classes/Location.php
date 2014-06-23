@@ -6,20 +6,17 @@
  * deze niet gebruikt :(.
  */
 
-//require_once(dirname(__file__) . '/CDbCriteria.php');
-//require_once(dirname(__file__) . '/BaseModel.php');
-
 class Location extends ObjectModel
 {
 	public $id_location;
 	public $location;
 	public $country;
 	public $code;
-	public $modified;
-	public $created;
+	public $date_upd;
+	public $date_add;
 
 	public static $definition = array(
-		'table' => 'booking_location',
+		'table' => 'bookflighttickets_location',
 		'primary' => 'id_location',
 		'multilang' => false,
 
@@ -39,27 +36,13 @@ class Location extends ObjectModel
 				'type' => self::TYPE_STRING,
 				'size' => 6,
 			),
-			'modified' => array(
+			'date_upd' => array(
 				'type' => self::TYPE_DATE
 			),
-			'created' => array(
+			'date_add' => array(
 				'type' => self::TYPE_DATE
 			),
 		),
 	);
-
-	public function add($autodate = true, $null_values = false)
-	{
-		$this->created = date('Y-m-d H:i:s');
-		$this->modified = date('Y-m-d H:i:s');
-
-		return parent::add($autodate, $null_values);
-	}
-
-	public function update($null_values = false)
-	{
-		$this->modified = date('Y-m-d H:i:s');
-		return parent::update($null_values);
-	}
 
 }

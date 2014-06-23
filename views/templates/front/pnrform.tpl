@@ -195,7 +195,7 @@ function checkForm()
 	var formOk = false;
 	
     $.ajax({
-        url : '{$link->getModuleLink('booking', 'Pnr')}',
+        url : '{$link->getModuleLink('bookflighttickets', 'Pnr')}',
         dataType: 'json',
         data: fdata,
         type: 'post',
@@ -238,7 +238,7 @@ function checkForm()
  
  </script>
  <div id='errors'></div>
-<form action="{$link->getModuleLink('booking', 'Pnr')|escape:'html'}" method="post" id="pnr_form" name='pnr_form' class="std" autocomplete="on" autofill="on">
+<form action="{$link->getModuleLink('bookflighttickets', 'Pnr')|escape:'html'}" method="post" id="pnr_form" name='pnr_form' class="std" autocomplete="on" autofill="on">
     <input type='hidden' name='token' value='{$token}' />
     {for $c=1 to ($num_adults + $num_children + $num_baby)}
  	<div class='info'>

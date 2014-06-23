@@ -5,11 +5,11 @@
  */
 if (!defined('_PS_VERSION_'))
     exit;
-include(dirname(__FILE__) . '/../../../config/config.inc.php');
+
 include(dirname(__FILE__) . '/../../classes/Reservation.php');
 include(dirname(__FILE__) . '/../../classes/ReservationDetails.php');
 
-class bookingReservationModuleFrontController extends ModuleFrontController
+class bookflightticketsReservationModuleFrontController extends ModuleFrontController
 {
 
     public function __construct()
@@ -53,9 +53,9 @@ class bookingReservationModuleFrontController extends ModuleFrontController
             $passengers = unserialize($this->context->cookie->passengers);
             foreach ($passengers as $passenger) {
                 unset($r);
-                if (ReservationDetails::alreadyExists($id, $passenger)) {
+                /*if (ReservationDetails::alreadyExists($id, $passenger)) {
                     continue;
-                }
+                }*/
 
                 /*
                  * TODO: check inbouwen of we al dezelfde gegevens hebben of niet.
@@ -63,13 +63,14 @@ class bookingReservationModuleFrontController extends ModuleFrontController
                 $r = new ReservationDetails();
                 $r->gender = $passenger['id_gender'];
                 $r->id_cart = $id_cart;
-                if ($n == 1) {
+                //if ($n == 1) {
                     $r->id_schedule = $id_schedule_1;
-                }
-                if ($n == 2) {
-                    $r->id_schedule = $id_schedule_2;
-                }
+                //}
+                //if ($n == 2) {
+                //    $r->id_schedule = $id_schedule_2;
+                //}
 
+                $r->id_product = $id_product_1;
                 $r->firstname = $passenger['firstname'];
                 $r->surname = $passenger['lastname'];
                 $r->birthdate = $passenger['years'] . '-' . $passenger['months'] . '-' . $passenger['days'];
@@ -78,8 +79,16 @@ class bookingReservationModuleFrontController extends ModuleFrontController
                 $r->adress = $passenger['address1'];
                 $r->postalcode = $passenger['postalcode'];
                 $r->place = $passenger['city'];
+                $r->identification_number = $passenger['id_number'];
                 $r->country = 'NL'; //$passenger->id_gender;
                 $r->add();
+                if ($n == 2) {
+                    unset($r->id);
+                    $r->id_product = $id_product_2;
+                    $r->id_schedule = $id_schedule_2;
+                    $r->add();
+                }
+                
             }
 
             /* Producten aan de cart toevoegen

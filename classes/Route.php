@@ -6,10 +6,6 @@
  * deze niet gebruikt :(.
  */
 
-//require_once (dirname(__file__) . '/CDbCriteria.php');
-//require_once (dirname(__file__) . '/BaseModel.php');
-
-
 class Route extends ObjectModel
 {
 	public $id_route;
@@ -17,11 +13,11 @@ class Route extends ObjectModel
 	public $id_location_2;
 	public $code;
 	public $order;
-	public $modified;
-	public $created;
+	public $date_upd;
+	public $date_add;
 	
 	public static $definition = array(
-		'table' => 'booking_route',
+		'table' => 'bookflighttickets_route',
 		'primary' => 'id_route',
 		'multilang' => false,
 
@@ -42,10 +38,10 @@ class Route extends ObjectModel
 			'order' => array(
 				'type' => self::TYPE_INT,
 			),
-			'modified' => array(
+			'date_upd' => array(
 				'type' => self::TYPE_DATE
 			),
-			'created' => array(
+			'date_add' => array(
 				'type' => self::TYPE_DATE
 			),
 		),

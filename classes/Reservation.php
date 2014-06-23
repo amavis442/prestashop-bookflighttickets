@@ -2,7 +2,7 @@
 class Reservation extends ObjectModel
 {   
     public $id_reservation;
-    public $id_booking;
+    public $id_cart;
     public $id_schedule;
     public $code;
     public $price;
@@ -13,12 +13,12 @@ class Reservation extends ObjectModel
     public $origin_id;
     public $destination_id;
     public $session_id;
-    public $modified;
-    public $created;
+    public $date_upd;
+    public $date_add;
     
     
     public static $definition = array(
-        'table' => 'booking_reservation',
+        'table' => 'bookflighttickets_reservation',
         'primary' => 'id_reservation',
         'multilang' => false,
     
@@ -26,7 +26,7 @@ class Reservation extends ObjectModel
             'id_reservation' => array(
                 'type' => self::TYPE_INT,
             ),
-            'id_booking' => array(
+            'id_cart' => array(
                 'type' => self::TYPE_INT,
             ),
             'id_schedule' => array(
@@ -64,10 +64,10 @@ class Reservation extends ObjectModel
                 'type' => self::TYPE_STRING,
                 'size'=>255,
             ),
-            'modified' => array(
+            'date_upd' => array(
                 'type' => self::TYPE_DATE
             ),
-            'created' => array(
+            'date_add' => array(
                 'type' => self::TYPE_DATE
             ),
         ),

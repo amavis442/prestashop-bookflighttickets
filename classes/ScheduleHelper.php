@@ -1,5 +1,6 @@
 <?php
 require_once (dirname(__file__) . '/Inventory.php');
+require_once (dirname(__file__) . '/ScheduleProduct.php');
 
 class ScheduleHelper
 {
@@ -12,7 +13,7 @@ class ScheduleHelper
 
     public function __construct(DateTime $date, Array $routes)
     {
-        $this->table = _DB_PREFIX_.'booking_schedule';
+        $this->table = _DB_PREFIX_.'bookflighttickets_schedule';
         
         $this->routes = $routes;
         $this->schedule = $schedule;
@@ -41,14 +42,14 @@ class ScheduleHelper
     {
         $sql = 'SELECT id_location,location,country,code FROM (
                 (
-                    SELECT id_location,location,country,l.code FROM '._DB_PREFIX_.'booking_location l
-                    INNER JOIN '._DB_PREFIX_.'booking_route ON (id_location_1 = id_location)
+                    SELECT id_location,location,country,l.code FROM '._DB_PREFIX_.'bookflighttickets_location l
+                    INNER JOIN '._DB_PREFIX_.'bookflighttickets_route ON (id_location_1 = id_location)
                     WHERE id_route = '.$id_route.'
                 )    
             UNION ALL
                 (
-                    SELECT id_location,location,country,l.code FROM '._DB_PREFIX_.'booking_location l
-                    INNER JOIN '._DB_PREFIX_.'booking_route ON (id_location_2 = id_location)
+                    SELECT id_location,location,country,l.code FROM '._DB_PREFIX_.'bookflighttickets_location l
+                    INNER JOIN '._DB_PREFIX_.'bookflighttickets_route ON (id_location_2 = id_location)
                     WHERE id_route = '.$id_route.'
                 ) 
             ) as t';
@@ -129,7 +130,7 @@ class ScheduleHelper
                         /* to */
                         $schedules[$n]['to'] = $tFlight;
                         $id_schedule = $tFlight['id_schedule'];
-                        $id_product = Product::findProductIdByScheduleId($id_schedule);
+                        $id_product = ScheduleProduct::findProductIdByScheduleId($id_schedule);
                         if ($id_product) {
                             $product = new Product($id_product);
                             $schedules[$n]['to']['id_product'] = $id_product;
@@ -144,7 +145,7 @@ class ScheduleHelper
                         /* Back */
                         $schedules[$n]['back'] = $bFlight;
                         $id_schedule = $bFlight['id_schedule'];
-                        $id_product = Product::findProductIdByScheduleId($id_schedule);
+                        $id_product = ScheduleProduct::findProductIdByScheduleId($id_schedule);
                         if ($id_product) {
                             $product = new Product($id_product);
                             $schedules[$n]['back']['id_product'] = $id_product;
