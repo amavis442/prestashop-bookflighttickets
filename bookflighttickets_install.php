@@ -90,7 +90,7 @@ class BookFlightTicketsInstall
 		    `country` varchar(255) NOT NULL,
 		    `code` varchar(6) NOT NULL,
 		    `date_add` datetime NOT NULL,
-                    `date_upd` datetime NOT NULL
+                    `date_upd` datetime NOT NULL,
 		    PRIMARY KEY (`id_location`)
                     ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8'
                 )) {
