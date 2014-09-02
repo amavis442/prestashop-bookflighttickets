@@ -1,8 +1,10 @@
 <?php
+
 require_once (dirname(__file__) . '/Route.php');
 
 class RouteHelper
 {
+
     private $origin;
     private $destination;
     private $location;
@@ -13,27 +15,46 @@ class RouteHelper
 
     public function __construct()
     {
-        $this->table_route = _DB_PREFIX_.Route::$definition['table'];
+        $this->table_route = _DB_PREFIX_ . Route::$definition['table'];
     }
-    
+
+    /**
+     * setter
+     * 
+     * @param int $id
+     * @throws Exception
+     */
     public function setOrigin($id)
     {
         if (!is_integer($id)) {
-            throw new Exception('Start moet een integer zijn Opgegeven: '.$id);
+            throw new Exception('Start moet een integer zijn Opgegeven: ' . $id);
         }
         $this->origin = $id;
     }
-    
+
+    /**
+     * setter
+     * 
+     * @param int $id
+     * @throws Exception
+     */
     public function setDestination($id)
     {
         if (!is_integer($id)) {
-            throw new Exception('Eindbestemming moet een integer zijn. Opgegeven: '.$id);
+            throw new Exception('Eindbestemming moet een integer zijn. Opgegeven: ' . $id);
         }
-    
+
         $this->destination = $id;
     }
-    
-    public function setOriginDestination($origin=0, $destination=0)
+
+    /**
+     * setter
+     * 
+     * @param int $origin
+     * @param int $destination
+     * @throws PrestaShopModuleException
+     */
+    public function setOriginDestination($origin = 0, $destination = 0)
     {
         try {
             $this->setOrigin($origin);
@@ -42,31 +63,35 @@ class RouteHelper
             throw $e;
         }
     }
-    
+
+    /**
+     * 
+     * @param string $where
+     * @return array
+     */
     public function findAllRoute($where)
     {
-        $sql = 'select * from '.$this->table_route.' WHERE '.$where;
+        $sql = 'select * from ' . $this->table_route . ' WHERE ' . $where;
         $records = Db::getInstance()->executeS($sql);
         return $records;
     }
-    
-    
-    
+
     /**
      *
      * @param number $iteraties
      * @param number $index
      * @return multitype:
      */
-    public function getRoutes($iteraties = 0,$index = 0) {
+    public function getRoutes($iteraties = 0, $index = 0)
+    {
         $this->_stack = array();
         $ret = array();
-    
-        $child_nodes = $this->findAllRoute(sprintf('id_location_1=%d',$this->origin));
+
+        $child_nodes = $this->findAllRoute(sprintf('id_location_1=%d', $this->origin));
         //var_dump($child_nodes);
-        foreach ($child_nodes as $k=>$parent_node) {
+        foreach ($child_nodes as $k => $parent_node) {
             try {
-                $this->_getRoutes($parent_node,0);
+                $this->_getRoutes($parent_node, 0);
             } catch (PrestaShopDatabaseException $e) {
                 throw $e;
             }
@@ -79,53 +104,54 @@ class RouteHelper
             return false;
         }
     }
-    
+
     /**
      *
-     * @param CActiveRecord $parent_node
+     * @param array $parent_node
      * @param number $destination
      * @param number $it
      * @param array $tmp
      * @throws Exception
      * @return boolean
      */
-    private function _getRoutes(Array $parent_node, $it = 0, Array $tmp = null) {
+    private function _getRoutes(Array $parent_node, $it = 0, Array $tmp = null)
+    {
         /* echo '<p>Iteratie :'.$it.'</p>';
-        var_dump($parent_node);
-        var_dump($this->_stack);
-        echo '<hr>';
-        */
-        
+          var_dump($parent_node);
+          var_dump($this->_stack);
+          echo '<hr>';
+         */
+
         if ($it === 0) {
             $this->id_routes = array();
             $tmp = array();
         }
-        
-        if (in_array($parent_node['id_route'],$this->id_routes)) {
+
+        if (in_array($parent_node['id_route'], $this->id_routes)) {
             $tmp = array();
             return false;
         }
         $this->id_routes[] = $parent_node['id_route'];
-        
-        if ($it === 0 && (int)$parent_node['id_location_2'] == $this->destination) {
+
+        if ($it === 0 && (int) $parent_node['id_location_2'] == $this->destination) {
             /* Rechtstreekse verbinding gevonden */
-            $this->_stack[]= array($parent_node['id_route']);
+            $this->_stack[] = array($parent_node['id_route']);
             $tmp = array();
         } else {
-            $child_nodes = $this->findAllRoute(sprintf('id_location_1=%d',$parent_node['id_location_2']));
+            $child_nodes = $this->findAllRoute(sprintf('id_location_1=%d', $parent_node['id_location_2']));
             if ($child_nodes) {
                 $num_nodes = count($child_nodes);
-    
-                foreach ($child_nodes as $k=>$child_node) {
+
+                foreach ($child_nodes as $k => $child_node) {
                     if ($child_node['id_location_2'] == $this->origin) {
                         $tmp = array();
                         --$it;
                         continue;
                     }
-                    
-                    
+
+
                     /* Checken of we de eindbestemming hebben bereikt */
-                    if ((int)$child_node['id_location_2'] == $this->destination) {
+                    if ((int) $child_node['id_location_2'] == $this->destination) {
                         $tmp[] = $child_node['id_route'];
                         $this->_stack[] = $tmp;
                         $tmp = array();
@@ -135,15 +161,15 @@ class RouteHelper
                         if ($it < 100) {
                             if ($num_nodes == 1) {
                                 if ($this->checkNode($parent_node, $child_node)) {
-                                    $tmp[] = (int)$child_node['id_route'];
+                                    $tmp[] = (int) $child_node['id_route'];
                                     $this->_stack[] = $tmp;
                                     unset($tmp);
                                 }
                                 return false;
                             } else {
-                                $tmp[] = (int)$parent_node['id_route'];
-                                $res = $this->_getRoutes($child_node,++$it,$tmp);
-    
+                                $tmp[] = (int) $parent_node['id_route'];
+                                $res = $this->_getRoutes($child_node, ++$it, $tmp);
+
                                 if (!$res && $num_nodes == 1) {
                                     $it = 0;
                                     return false;
@@ -165,8 +191,7 @@ class RouteHelper
         }
         return false;
     }
-    
-    
+
     /**
      * Check of een parent en child naar elkaar verwijzen of dat we het einde hebben bereikt maar nog
      * niet het doel.
@@ -175,18 +200,16 @@ class RouteHelper
      * @param CActiveRecord $child_node
      * @return boolean
      */
-    protected function checkNode(Array $parent_node,Array $child_node)
+    protected function checkNode(Array $parent_node, Array $child_node)
     {
         /* Hier gaat ie rondzingen */
-        if ($parent_node['id_location_2'] == $this->destination){
+        if ($parent_node['id_location_2'] == $this->destination) {
             return true;
-        } else if ((int)$child_node['id_location_2'] === $this->destination) {
+        } else if ((int) $child_node['id_location_2'] === $this->destination) {
             return true;
         }
-        
+
         return false;
-        
     }
-    
-    
+
 }

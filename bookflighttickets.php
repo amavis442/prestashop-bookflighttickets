@@ -3,7 +3,6 @@
 if (!defined('_PS_VERSION_'))
     exit;
 
-
 class Bookflighttickets extends Module
 {
 
@@ -87,7 +86,14 @@ class Bookflighttickets extends Module
         return true;
     }
 
-    private function installModuleTab($tabClass, $tabName, $idTabParent)
+    /**
+     * 
+     * @param string $tabClass
+     * @param array $tabName
+     * @param int $idTabParent
+     * @return boolean
+     */
+    private function installModuleTab($tabClass, Array $tabName, $idTabParent)
     {
         $idTab = $idTabParent;
         if (!$id_tab = Tab::getIdFromClassName($tabClass)) {
@@ -105,6 +111,11 @@ class Bookflighttickets extends Module
         }
     }
 
+    /**
+     * 
+     * @param string $tabClass
+     * @return boolean
+     */
     private function uninstallModuleTab($tabClass)
     {
         if ($idTab = Tab::getIdFromClassName($tabClass)) {

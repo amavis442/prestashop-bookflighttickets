@@ -1,6 +1,8 @@
 <?php
+
 class Reservation extends ObjectModel
-{   
+{
+
     public $id_reservation;
     public $id_cart;
     public $id_schedule;
@@ -15,13 +17,10 @@ class Reservation extends ObjectModel
     public $session_id;
     public $date_upd;
     public $date_add;
-    
-    
     public static $definition = array(
         'table' => 'bookflighttickets_reservation',
         'primary' => 'id_reservation',
         'multilang' => false,
-    
         'fields' => array(
             'id_reservation' => array(
                 'type' => self::TYPE_INT,
@@ -48,11 +47,11 @@ class Reservation extends ObjectModel
             ),
             'special' => array(
                 'type' => self::TYPE_STRING,
-                'size'=>255,
-            ),            
+                'size' => 255,
+            ),
             'status' => array(
                 'type' => self::TYPE_STRING,
-                'size'=>255,
+                'size' => 255,
             ),
             'origin_id' => array(
                 'type' => self::TYPE_INT,
@@ -62,7 +61,7 @@ class Reservation extends ObjectModel
             ),
             'session_id' => array(
                 'type' => self::TYPE_STRING,
-                'size'=>255,
+                'size' => 255,
             ),
             'date_upd' => array(
                 'type' => self::TYPE_DATE
@@ -72,5 +71,5 @@ class Reservation extends ObjectModel
             ),
         ),
     );
-   
+
 }

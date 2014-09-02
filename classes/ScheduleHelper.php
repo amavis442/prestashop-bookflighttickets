@@ -11,6 +11,11 @@ class ScheduleHelper
     
     private $table;
 
+    /**
+     * 
+     * @param DateTime $date
+     * @param array $routes
+     */
     public function __construct(DateTime $date, Array $routes)
     {
         $this->table = _DB_PREFIX_.'bookflighttickets_schedule';
@@ -21,16 +26,29 @@ class ScheduleHelper
         //$this->rsplink = $rsplink;
     }
 
+    /**
+     * 
+     * @param DateTime $date
+     */
     public function setDate(DateTime $date)
     {
         $this->date = $date;
     }
 
+    /**
+     * 
+     * @param array $routes
+     */
     public function setRoutes(Array $routes)
     {
         $this->routes = $routes;
     }
 
+    /**
+     * 
+     * @param string $where
+     * @return array
+     */
     public function findSchedule($where)
     {
         $sql = 'select * from '.$this->table.' WHERE '.$where;
@@ -38,6 +56,11 @@ class ScheduleHelper
         return $records;
     }
     
+    /**
+     * 
+     * @param int $id_route
+     * @return array
+     */
     public function findLocations($id_route)
     {
         $sql = 'SELECT id_location,location,country,code FROM (
@@ -56,7 +79,12 @@ class ScheduleHelper
         return Db::getInstance()->executeS($sql);
     }
     
-    /* Hier worden de vluchten bepaald die in aanmerking komen */
+    /**
+     *  Hier worden de vluchten bepaald die in aanmerking komen 
+     *
+     * @param type $spread
+     * @return boolean
+     */
     public function getSchedule($spread=2)
     {
         $schedule_data = array();
@@ -108,6 +136,12 @@ class ScheduleHelper
         }
     }
     
+    /**
+     * 
+     * @param string $departure
+     * @param string $traveltime
+     * @return string
+     */
     public static function getArrival($departure,$traveltime)
     {
         $travel_h = substr($traveltime,0,2);
@@ -117,6 +151,13 @@ class ScheduleHelper
         return $arrival;
     }
     
+    /**
+     * 
+     * @param array $to
+     * @param array $back
+     * @param type $num_persons
+     * @return string
+     */
     public static function makeCombinations(Array $to, Array $back,$num_persons = 1)
     {
         $schedules = array();

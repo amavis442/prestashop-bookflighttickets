@@ -53,9 +53,9 @@ class bookflightticketsReservationModuleFrontController extends ModuleFrontContr
             $passengers = unserialize($this->context->cookie->passengers);
             foreach ($passengers as $passenger) {
                 unset($r);
-                /*if (ReservationDetails::alreadyExists($id, $passenger)) {
-                    continue;
-                }*/
+                /* if (ReservationDetails::alreadyExists($id, $passenger)) {
+                  continue;
+                  } */
 
                 /*
                  * TODO: check inbouwen of we al dezelfde gegevens hebben of niet.
@@ -64,7 +64,7 @@ class bookflightticketsReservationModuleFrontController extends ModuleFrontContr
                 $r->gender = $passenger['id_gender'];
                 $r->id_cart = $id_cart;
                 //if ($n == 1) {
-                    $r->id_schedule = $id_schedule_1;
+                $r->id_schedule = $id_schedule_1;
                 //}
                 //if ($n == 2) {
                 //    $r->id_schedule = $id_schedule_2;
@@ -88,7 +88,6 @@ class bookflightticketsReservationModuleFrontController extends ModuleFrontContr
                     $r->id_schedule = $id_schedule_2;
                     $r->add();
                 }
-                
             }
 
             /* Producten aan de cart toevoegen

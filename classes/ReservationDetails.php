@@ -1,6 +1,8 @@
 <?php
+
 class ReservationDetails extends ObjectModel
-{   
+{
+
     public $id_reservationdetails; //	int(11)			Nee	Geen	AUTO_INCREMENT	 Veranderen Veranderen	 Verwijderen Verwijderen	 Meer Geef meer acties weer
     public $id_cart;
     public $id_product;
@@ -18,15 +20,10 @@ class ReservationDetails extends ObjectModel
     public $identification_number;
     public $date_upd;
     public $date_add;
-    
-    
-    
-    
     public static $definition = array(
         'table' => 'bookflighttickets_reservationdetails',
         'primary' => 'id_reservationdetails',
         'multilang' => false,
-    
         'fields' => array(
             'id_reservationdetails' => array(
                 'type' => self::TYPE_INT,
@@ -42,11 +39,11 @@ class ReservationDetails extends ObjectModel
             ),
             'gender' => array(
                 'type' => self::TYPE_STRING,
-                'size' =>10,
+                'size' => 10,
             ),
             'firstname' => array(
                 'type' => self::TYPE_STRING,
-                'size'=>255,
+                'size' => 255,
             ),
             'surname' => array(
                 'type' => self::TYPE_STRING,
@@ -57,31 +54,31 @@ class ReservationDetails extends ObjectModel
             ),
             'email' => array(
                 'type' => self::TYPE_STRING,
-                'size'=>255,
+                'size' => 255,
             ),
             'phone' => array(
                 'type' => self::TYPE_STRING,
-                'size'=>20,
+                'size' => 20,
             ),
             'adress' => array(
                 'type' => self::TYPE_STRING,
-                'size'=>200,
-            ),            
+                'size' => 200,
+            ),
             'postalcode' => array(
                 'type' => self::TYPE_STRING,
-                'size'=>20,
+                'size' => 20,
             ),
             'place' => array(
                 'type' => self::TYPE_STRING,
-                'size'=>255,
+                'size' => 255,
             ),
             'country' => array(
                 'type' => self::TYPE_STRING,
-                'size'=>255,
+                'size' => 255,
             ),
             'identification_number' => array(
                 'type' => self::TYPE_STRING,
-                'size'=>255,
+                'size' => 255,
             ),
             'date_upd' => array(
                 'type' => self::TYPE_DATE
@@ -91,34 +88,33 @@ class ReservationDetails extends ObjectModel
             ),
         ),
     );
-   
+
     public function add($autodate = true, $null_values = false)
     {
         $this->created = date('Y-m-d H:i:s');
         $this->modified = date('Y-m-d H:i:s');
-    
+
         return parent::add($autodate, $null_values);
     }
-    
+
     public function update($null_values = false)
     {
         $this->modified = date('Y-m-d H:i:s');
         return parent::update($null_values);
     }
-    
-    public static function alreadyExists($id_cart, Array $person) 
+
+    /**
+     * 
+     * @param int $id_cart
+     * @param array $person
+     * @return int
+     */
+    public static function alreadyExists($id_cart, Array $person)
     {
-        $sql = sprintf('SELECT COUNT(*) t FROM '._DB_PREFIX_.'booking_reservationdetails WHERE 
-            id_cart=%d AND firstname = "%s" AND surname="%s" AND postalcode = "%s" AND birthdate = "%d-%d-%d"',
-            $id_cart,
-            $person['firstname'],
-            $person['lastname'],
-            $person['postalcode'],
-            $person['years'],
-            $person['months'],
-            $person['days']
-            
+        $sql = sprintf('SELECT COUNT(*) t FROM ' . _DB_PREFIX_ . 'booking_reservationdetails WHERE 
+            id_cart=%d AND firstname = "%s" AND surname="%s" AND postalcode = "%s" AND birthdate = "%d-%d-%d"', $id_cart, $person['firstname'], $person['lastname'], $person['postalcode'], $person['years'], $person['months'], $person['days']
         );
         return Db::getInstance()->getValue($sql);
     }
+
 }

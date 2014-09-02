@@ -131,6 +131,11 @@ class bookflightticketsSearchflightModuleFrontController extends ModuleFrontCont
         parent::setMedia();
     }
 
+    /**
+     * 
+     * @param string $date
+     * @return boolean
+     */
     public function isDate($date)
     {
         //preg_match('/^(([0-9])|([1-2][0-9])|3([01]))-((0?[0-9])|([1][1-2]))-20(([1-2])([0-9]))$', $date,$match);

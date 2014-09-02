@@ -60,7 +60,7 @@ class BookFlightTicketsInstall
 			PRIMARY KEY (`id_bookflighttickets`),
 			INDEX(id_cart, id_product)
 		) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8')) {
-            $this->errorMsg = 'Creating  ' . $this->db_prefix . '('.__LINE__.') :: ' . Db::getInstance()->getMsgError();
+            $this->errorMsg = 'Creating  ' . $this->db_prefix . '(' . __LINE__ . ') :: ' . Db::getInstance()->getMsgError();
             return false;
         }
         return true;
@@ -76,7 +76,7 @@ class BookFlightTicketsInstall
                     `date_upd` datetime NOT NULL,
 		    PRIMARY KEY (`id_inventory`)
                     ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8')) {
-            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_inventory('.__LINE__.') :: ' . Db::getInstance()->getMsgError();
+            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_inventory(' . __LINE__ . ') :: ' . Db::getInstance()->getMsgError();
             return false;
         }
         return true;
@@ -94,7 +94,7 @@ class BookFlightTicketsInstall
 		    PRIMARY KEY (`id_location`)
                     ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8'
                 )) {
-            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_location('.__LINE__.') :: ' . Db::getInstance()->getMsgError();
+            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_location(' . __LINE__ . ') :: ' . Db::getInstance()->getMsgError();
             return false;
         }
         return true;
@@ -112,7 +112,7 @@ class BookFlightTicketsInstall
                         `date_upd` datetime NOT NULL,
 			  PRIMARY KEY (`id_route`)
 			) ENGINE=' . _MYSQL_ENGINE_ . '  DEFAULT CHARSET=utf8')) {
-            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_route('.__LINE__.') :: ' . Db::getInstance()->getMsgError();
+            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_route(' . __LINE__ . ') :: ' . Db::getInstance()->getMsgError();
             return false;
         }
         return true;
@@ -130,7 +130,7 @@ class BookFlightTicketsInstall
                         `date_upd` datetime NOT NULL,
 			  PRIMARY KEY (`id_schedule`)
 			) ENGINE=' . _MYSQL_ENGINE_ . '  DEFAULT CHARSET=utf8')) {
-            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_schedule('.__LINE__.') :: ' . Db::getInstance()->getMsgError();
+            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_schedule(' . __LINE__ . ') :: ' . Db::getInstance()->getMsgError();
             return false;
         }
         return true;
@@ -147,7 +147,7 @@ class BookFlightTicketsInstall
                             PRIMARY KEY (`id_scheduleproduct`),
                             INDEX(`id_schedule`, `id_product`)
 			) ENGINE=' . _MYSQL_ENGINE_ . '  DEFAULT CHARSET=utf8')) {
-            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_schedule_product('.__LINE__.') :: ' . Db::getInstance()->getMsgError();
+            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_schedule_product(' . __LINE__ . ') :: ' . Db::getInstance()->getMsgError();
             return false;
         }
         return true;
@@ -165,7 +165,7 @@ class BookFlightTicketsInstall
 			  PRIMARY KEY (`id_price`)
 			  
 			) ENGINE=' . _MYSQL_ENGINE_ . '  DEFAULT CHARSET=utf8')) {
-            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_price('.__LINE__.') :: ' . Db::getInstance()->getMsgError();
+            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_price(' . __LINE__ . ') :: ' . Db::getInstance()->getMsgError();
             return false;
         }
         return true;
@@ -190,7 +190,7 @@ class BookFlightTicketsInstall
                         `date_upd` datetime NOT NULL,
 			  PRIMARY KEY (`id_reservation`)
 			) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8')) {
-            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_reservation('.__LINE__.') :: ' . Db::getInstance()->getMsgError();
+            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_reservation(' . __LINE__ . ') :: ' . Db::getInstance()->getMsgError();
             return false;
         }
         return true;
@@ -206,7 +206,7 @@ class BookFlightTicketsInstall
                         `date_upd` datetime NOT NULL,
 			  PRIMARY KEY (`id_rsplink`)
 			  ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8')) {
-            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_rsplink('.__LINE__.') :: ' . Db::getInstance()->getMsgError();
+            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_rsplink(' . __LINE__ . ') :: ' . Db::getInstance()->getMsgError();
             return false;
         }
         return true;
@@ -233,7 +233,7 @@ class BookFlightTicketsInstall
                         `date_upd` datetime NOT NULL,
 			PRIMARY KEY (`id_reservationdetails`)
 			) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8 COMMENT=\'PNR\'')) {
-            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_reservationdetails('.__LINE__.') :: ' . Db::getInstance()->getMsgError();
+            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_reservationdetails(' . __LINE__ . ') :: ' . Db::getInstance()->getMsgError();
             return false;
         }
         return true;
@@ -248,7 +248,7 @@ class BookFlightTicketsInstall
                         `date_upd` datetime NOT NULL,
 		  PRIMARY KEY (`id_tickets`)
 		) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=utf8')) {
-            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_tickets('.__LINE__.') :: ' . Db::getInstance()->getMsgError();
+            $this->errorMsg = 'Creating  ' . $this->db_prefix . '_tickets(' . __LINE__ . ') :: ' . Db::getInstance()->getMsgError();
             return false;
         }
         return true;
@@ -274,7 +274,7 @@ class BookFlightTicketsInstall
     }
 
     /**
-     * Delete PayPal configuration
+     * Delete Bookflight configuration
      */
     public function deleteConfiguration()
     {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @since 1.5.0
  */
@@ -88,7 +89,12 @@ class bookflightticketsPnrModuleFrontController extends ModuleFrontController
         );
     }
 
-    public function validatePassenger($passenger)
+    /**
+     * 
+     * @param array $passenger
+     * @return string|array
+     */
+    public function validatePassenger(Array $passenger)
     {
         $validate = array('email' => 'isEmail', 'firstname' => 'isString', 'lastname' => 'isString', 'days' => 'isBirthDate', 'address1' => '', 'postalcode' => '', 'city' => '', 'id_number' => '', 'phone' => '');
 

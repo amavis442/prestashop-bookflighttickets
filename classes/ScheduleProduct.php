@@ -38,9 +38,14 @@ class ScheduleProduct extends ObjectModel
         ),
     );
 
+    /**
+     * 
+     * @param int $id_schedule
+     * @return int|null
+     */
     public static function findProductIdByScheduleId($id_schedule)
     {
-        $sql = 'select id_product from '._-DB_PREFIX_.self::$definition['table']. ' WHERE id_schedule = '.(int)$id_schedule;
+        $sql = 'select id_product from ' . _ - DB_PREFIX_ . self::$definition['table'] . ' WHERE id_schedule = ' . (int) $id_schedule;
         $result = Db::getInstance()->executeS($sql);
         if ($result) {
             return $result['id_product'];
@@ -48,4 +53,5 @@ class ScheduleProduct extends ObjectModel
             return null;
         }
     }
+
 }

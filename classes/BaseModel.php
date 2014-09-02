@@ -3,7 +3,7 @@
  * @author: Patrick Teunissen <p.teunissen@ict-concept.nl>
  * Date: 12/20/13.
  */
- 
+
 class BaseModel extends ObjectModel
 {
 	public $tableName;

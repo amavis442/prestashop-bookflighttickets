@@ -13,8 +13,9 @@ require_once (dirname(__file__) . '/../../classes/Inventory.php');
 
 class AdminScheduleController extends ModuleAdminController
 {
-    public $id_schedule=null;
-    
+
+    public $id_schedule = null;
+
     public function __construct()
     {
         $this->name = 'Schedule';
@@ -48,9 +49,9 @@ class AdminScheduleController extends ModuleAdminController
         //$this->_orderBy = 'id_location';
 
         $this->_select = ' id_route as route_desc, ROUND(p.price,2) price';
-    
+
         $this->_join = ''
-                . ','._DB_PREFIX_. ScheduleProduct::$definition['table'] . ' sp ' 
+                . ',' . _DB_PREFIX_ . ScheduleProduct::$definition['table'] . ' sp '
                 . ',' . _DB_PREFIX_ . 'product p ';
         $this->_where = ' AND sp.id_schedule = a.id_schedule AND sp.id_product = p.id_product';
         /**
@@ -91,20 +92,20 @@ class AdminScheduleController extends ModuleAdminController
                 'width' => 'auto',
             ),
         );
-        
+
         if (Tools::getValue('id_schedule')) {
             $this->id_schedule = Tools::getValue('id_schedule');
-        } 
-        
+        }
+
         parent::__construct();
     }
 
-     //Om de query te kunnen bekijken
-     /* public function display()
+    //Om de query te kunnen bekijken
+    /* public function display()
       {
       die($this->_listsql);
       }
-    */
+     */
 
     private function initList()
     {
@@ -162,10 +163,10 @@ class AdminScheduleController extends ModuleAdminController
 
         foreach ($this->_list as $k => $listitem) {
             $sql = sprintf("SELECT
-					(SELECT location FROM "._DB_PREFIX_.Location::$definition['table']." WHERE id_location_1=id_location) as location_1,
-					(SELECT location FROM "._DB_PREFIX_.Location::$definition['table']." WHERE id_location_2=id_location) as location_2 FROM `" ._DB_PREFIX_.Route::$definition['table']."` a
+					(SELECT location FROM " . _DB_PREFIX_ . Location::$definition['table'] . " WHERE id_location_1=id_location) as location_1,
+					(SELECT location FROM " . _DB_PREFIX_ . Location::$definition['table'] . " WHERE id_location_2=id_location) as location_2 FROM `" . _DB_PREFIX_ . Route::$definition['table'] . "` a
 					WHERE id_route = %d", $listitem['id_route']);
-           $row = Db::getInstance()->getRow($sql);
+            $row = Db::getInstance()->getRow($sql);
             $this->_list[$k]['route_desc'] = $row['location_1'] . ' - ' . $row['location_2'];
         }
 
@@ -206,16 +207,16 @@ class AdminScheduleController extends ModuleAdminController
         $routes = Db::getInstance()->executeS($sql);
         $finalRoutes = array();
         foreach ($routes as $route) {
-            $sql = sprintf('SELECT location FROM ' . _DB_PREFIX_ . Location::$definition['table'].' WHERE id_location = %d', $route['id_location_1']);
+            $sql = sprintf('SELECT location FROM ' . _DB_PREFIX_ . Location::$definition['table'] . ' WHERE id_location = %d', $route['id_location_1']);
             $from = Db::getInstance()->getValue($sql);
-            $sql = sprintf('SELECT location FROM ' . _DB_PREFIX_ . Location::$definition['table'].' WHERE id_location = %d', $route['id_location_2']);
+            $sql = sprintf('SELECT location FROM ' . _DB_PREFIX_ . Location::$definition['table'] . ' WHERE id_location = %d', $route['id_location_2']);
             $to = Db::getInstance()->getValue($sql);
             $route['combined'] = $from . ' - ' . $to;
             $finalRoutes[] = $route;
         }
 
         $id_lang = (int) (Configuration::get('PS_LANG_DEFAULT'));
-        $sql = 'SELECT id_product FROM '._DB_PREFIX_. ScheduleProduct::$definition['table']. ' WHERE id_schedule = ' . Tools::getValue('id_schedule');
+        $sql = 'SELECT id_product FROM ' . _DB_PREFIX_ . ScheduleProduct::$definition['table'] . ' WHERE id_schedule = ' . Tools::getValue('id_schedule');
         $id_product = Db::getInstance()->getValue($sql);
         $price = '00.00';
         if ($id_product) {
@@ -260,7 +261,7 @@ class AdminScheduleController extends ModuleAdminController
                     'label' => $this->l('Departure date:'),
                     'name' => 'departure',
                     'required' => true,
-                    //'value' => '02-02-2013 08:00:00'
+                //'value' => '02-02-2013 08:00:00'
                 ),
                 array(
                     'type' => 'text',
@@ -280,7 +281,7 @@ class AdminScheduleController extends ModuleAdminController
     public function initToolbar()
     {
         parent::initToolbar();
-        
+
         if ($this->display == 'edit' || $this->display == 'add') {
             if ($this->tabAccess['edit']) {
                 $this->toolbar_btn['save'] = array(
@@ -299,10 +300,10 @@ class AdminScheduleController extends ModuleAdminController
                 $this->toolbar_btn['duplicate'] = array(
                     'short' => 'Duplicate',
                     'desc' => $this->l('Duplicate'),
-                    'href' => $this->context->link->getAdminLink('AdminSchedule'). '&amp;id_schedule=' . (int) $this->id_schedule . '&amp;duplicatebookflighttickets_schedule=1'
-                    //'confirm' => 1,
-                    //'js' => 'if (confirm(\'' . $this->l('Also copy images') . ' ?\')) document.location = \'' . $this->context->link->getAdminLink('AdminProducts') . '&amp;id_product=' . (int) $product->id . '&amp;duplicateproduct\'; 
-                    //else document.location = \'' . $this->context->link->getAdminLink('AdminProducts') . '&amp;id_product=' . (int) $product->id . '&amp;duplicateproduct&amp;noimage=1\';'
+                    'href' => $this->context->link->getAdminLink('AdminSchedule') . '&amp;id_schedule=' . (int) $this->id_schedule . '&amp;duplicatebookflighttickets_schedule=1'
+                        //'confirm' => 1,
+                        //'js' => 'if (confirm(\'' . $this->l('Also copy images') . ' ?\')) document.location = \'' . $this->context->link->getAdminLink('AdminProducts') . '&amp;id_product=' . (int) $product->id . '&amp;duplicateproduct\'; 
+                        //else document.location = \'' . $this->context->link->getAdminLink('AdminProducts') . '&amp;id_product=' . (int) $product->id . '&amp;duplicateproduct&amp;noimage=1\';'
                 );
             }
         }
@@ -314,33 +315,33 @@ class AdminScheduleController extends ModuleAdminController
             /* Oude data ophalen */
             if (!($model = $this->loadObject(true))) {
                 return;
-            } 
+            }
             unset($model->id_schedule);
             unset($model->id);
             $model->add();
-            
+
             $id_schedule = Tools::getValue('id_schedule');
-            $sql = 'SELECT id_product FROM ' . _DB_PREFIX_ . ScheduleProduct::$definition['table']. ' WHERE id_schedule = ' . $id_schedule;
+            $sql = 'SELECT id_product FROM ' . _DB_PREFIX_ . ScheduleProduct::$definition['table'] . ' WHERE id_schedule = ' . $id_schedule;
             $id_product = Db::getInstance()->getValue($sql);
             $product = new Product($id_product);
             unset($product->id);
             unset($product->id_product);
-            
-            $product->id_schedule =  $model->id;
+
+            $product->id_schedule = $model->id;
             $product->id_category = array($product->id_category_default);
-            $product->add();  
+            $product->add();
             $product->updateCategories(array_map('intval', $product->id_category));
-            
+
             $scheduleproduct = new ScheduleProduct();
             $scheduleproduct->id_schedule = $model->id;
             $scheduleproduct->id_product = $product->id;
             $scheduleproduct->save();
-            
-            Tools::redirectAdmin($this->context->link->getAdminLink('AdminSchedule'). '&update'.$this->table.'&id_schedule=' . (int) $model->id);
+
+            Tools::redirectAdmin($this->context->link->getAdminLink('AdminSchedule') . '&update' . $this->table . '&id_schedule=' . (int) $model->id);
         }
         parent::postProcess();
-        
-        
+
+
         /* We maken er ook een product van zodat het order systeem werkt. */
         /*
          * 1. Check of record moet worden toegevoegd of aangepast.
@@ -350,21 +351,21 @@ class AdminScheduleController extends ModuleAdminController
             $id_category = (int) (Configuration::get('PS_BOOKFLIGHTTICKETS_CAT_ID'));
             $id_lang = (int) (Configuration::get('PS_LANG_DEFAULT'));
             $id_schedule = Tools::getValue('id_schedule');
-            $sql = 'SELECT id_product FROM ' . _DB_PREFIX_ . ScheduleProduct::$definition['table']. ' WHERE id_schedule = ' . $id_schedule;
+            $sql = 'SELECT id_product FROM ' . _DB_PREFIX_ . ScheduleProduct::$definition['table'] . ' WHERE id_schedule = ' . $id_schedule;
             $id_product = Db::getInstance()->getValue($sql);
             $product = null;
 
             /* Wat kenmerken ophalen */
             $id_route = Tools::getValue('id_route');
             $id_inventory = Tools::getValue('id_inventory');
-            $sql = 'select designation, seats FROM ' . _DB_PREFIX_ .Inventory::$definition['table']. ' WHERE id_inventory = ' . $id_inventory;
+            $sql = 'select designation, seats FROM ' . _DB_PREFIX_ . Inventory::$definition['table'] . ' WHERE id_inventory = ' . $id_inventory;
             $inventory = Db::getInstance()->getRow($sql);
             $quantity = $inventory['seats'];
 
             $departure = Tools::getValue('departure');
             $sql = sprintf("SELECT
-					(SELECT location FROM " . _DB_PREFIX_ .Location::$definition['table']. " WHERE id_location_1=id_location) as origin,
-					(SELECT location FROM " . _DB_PREFIX_ .Location::$definition['table']. " WHERE id_location_2=id_location) as destination FROM `" . _DB_PREFIX_ . Route::$definition['table']."` a
+					(SELECT location FROM " . _DB_PREFIX_ . Location::$definition['table'] . " WHERE id_location_1=id_location) as origin,
+					(SELECT location FROM " . _DB_PREFIX_ . Location::$definition['table'] . " WHERE id_location_2=id_location) as destination FROM `" . _DB_PREFIX_ . Route::$definition['table'] . "` a
 					WHERE id_route = %d", $id_route);
             $row = Db::getInstance()->getRow($sql);
             $kenmerk = $inventory['designation'] . ':: ' . $row['origin'] . ' - ' . $row['destination'] . ' (' . $departure . ')';
@@ -409,7 +410,6 @@ class AdminScheduleController extends ModuleAdminController
                 $scheduleproduct->id_schedule = $id_schedule;
                 $scheduleproduct->id_product = $id_product;
                 $scheduleproduct->save();
-                
             }
         }
 

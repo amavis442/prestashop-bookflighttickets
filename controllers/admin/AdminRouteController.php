@@ -10,7 +10,6 @@
 require_once (dirname(__file__) . '/../../classes/Route.php');
 require_once (dirname(__file__) . '/../../classes/Location.php');
 
-
 class AdminRouteController extends ModuleAdminController
 {
 
@@ -47,8 +46,8 @@ class AdminRouteController extends ModuleAdminController
 
 
 
-        $this->_select = '(SELECT location  FROM ' . _DB_PREFIX_ . Location::$definition['table'].' WHERE id_location_1=id_location) as location_1,
-	                       (SELECT location FROM ' . _DB_PREFIX_ . Location::$definition['table'].' WHERE id_location_2=id_location)  as location_2';
+        $this->_select = '(SELECT location  FROM ' . _DB_PREFIX_ . Location::$definition['table'] . ' WHERE id_location_1=id_location) as location_1,
+	                       (SELECT location FROM ' . _DB_PREFIX_ . Location::$definition['table'] . ' WHERE id_location_2=id_location)  as location_2';
 
         //$this->_join = _DB_PREFIX_.'booking_location ON (id_location_1 = id_location OR id_location_2 = id_location)';
 
