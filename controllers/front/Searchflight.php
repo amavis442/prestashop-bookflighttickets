@@ -1,33 +1,4 @@
 <?php
-
-/*
- * 2007-2013 PrestaShop
- *
- * NOTICE OF LICENSE
- *
- * This source file is subject to the Academic Free License (AFL 3.0)
- * that is bundled with this package in the file LICENSE.txt.
- * It is also available through the world-wide-web at this URL:
- * http://opensource.org/licenses/afl-3.0.php
- * If you did not receive a copy of the license and are unable to
- * obtain it through the world-wide-web, please send an email
- * to license@prestashop.com so we can send you a copy immediately.
- *
- * DISCLAIMER
- *
- * Do not edit or add to this file if you wish to upgrade PrestaShop to newer
- * versions in the future. If you wish to customize PrestaShop for your
- * needs please refer to http://www.prestashop.com for more information.
- *
- *  @author PrestaShop SA <contact@prestashop.com>
- *  @copyright  2007-2013 PrestaShop SA
- *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
- *  International Registered Trademark & Property of PrestaShop SA
- */
-
-/**
- * @since 1.5.0
- */
 if (!defined('_PS_VERSION_'))
     exit;
 
@@ -115,10 +86,13 @@ class bookflightticketsSearchflightModuleFrontController extends ModuleFrontCont
             $this->flightnumchildren = Tools::getValue('flightnumchildren');
             $this->flightnumbaby = Tools::getValue('flightnumbaby');
 
+            // European style date
             if (preg_match('/(\d{2})(\.|\/|\-)(\d{2})(\.|\/|\-)(\d{4})/', $this->flightdeparturedate, $match)) {
                 $this->mysql_departuredate = $match[5] . '-' . $match[3] . '-' . $match[1];
                 $this->mysql_returndate = preg_replace('/(\d{2})(\.|\/|\-)(\d{2})(\.|\/|\-)(\d{4})/', '$5-$3-$1', $this->flightreturndate);
             }
+            
+            // American style date
             if (preg_match('/(\d{4})(\.|\/|\-)(\d{2})(\.|\/|\-)(\d{4})/', $this->flightdeparturedate, $match)) {
                 $this->mysql_departuredate = $match[1] . '-' . $match[3] . '-' . $match[5];
                 $this->mysql_returndate = preg_replace('/(\d{4})(\.|\/|\-)(\d{2})(\.|\/|\-)(\d{2})/', '$1-$3-$5', $this->flightreturndate);
@@ -139,8 +113,8 @@ class bookflightticketsSearchflightModuleFrontController extends ModuleFrontCont
     public function isDate($date)
     {
         //preg_match('/^(([0-9])|([1-2][0-9])|3([01]))-((0?[0-9])|([1][1-2]))-20(([1-2])([0-9]))$', $date,$match);
-        if (preg_match('/^(0?[0-9]|[1-2][0-9]|3[01])-(0?[0-9]|1[1-2])-(20[12][0-9])/', $date) ||
-                preg_match('/^(20[12][0-9])-(0?[0-9]|1[1-2])-([0-9]?|[1-2][0-9]|3[01])/', $date)) {
+        if (preg_match('/^(0?[0-9]|[012][0-9]|3[01])-(0?[0-9]|1[012])-(20[1-9][0-9])/', $date) ||
+                preg_match('/^(20[1-9][0-9])-(0?[0-9]|1[0-2])-([0-9]?|[012][0-9]|3[01])/', $date)) {
             return true;
         }
         return false;
