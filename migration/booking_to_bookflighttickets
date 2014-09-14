@@ -11,4 +11,4 @@ insert INTO ps_bookflighttickets_schedule
 select id_schedule,id_route,id_inventory,traveltime,departure,created as date_add, modified as date_upd from ps_booking_schedule;
 
 insert INTO ps_bookflighttickets_schedule_product 
-select 0,id_schedule,id_product,NOW() as dete_add,NOW() as date_upd from ps_product;
+select 0,id_schedule,id_product,NOW() as date_add,NOW() as date_upd from ps_product;

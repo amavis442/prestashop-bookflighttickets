@@ -175,7 +175,8 @@ class ScheduleHelper
                         if ($id_product) {
                             $product = new Product($id_product);
                             $schedules[$n]['to']['id_product'] = $id_product;
-                            $schedules[$n]['to']['price'] = $product->getPrice(false);
+                            $price = $product->getPrice(false);
+                            $schedules[$n]['to']['price'] = ($price ? $price : 0);
                         }
                         $schedules[$n]['to']['arrival'] = ScheduleHelper::getArrival($tFlight['departure'], $tFlight['traveltime']);
                         $schedules[$n]['to']['inventory'] = Inventory::getDesignation($tFlight['id_inventory']);

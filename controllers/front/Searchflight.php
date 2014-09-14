@@ -219,7 +219,7 @@ class bookflightticketsSearchflightModuleFrontController extends ModuleFrontCont
                     foreach ($schedules_depart as $k => $item) {
                         foreach ($item as $i => $schedule) {
                             $id_schedule = $schedule['id_schedule'];
-                            $id_product = Product::findProductIdByScheduleId($id_schedule);
+                            $id_product = ScheduleProduct::findProductIdByScheduleId($id_schedule);
                             if ($id_product) {
                                 $product = new Product($id_product);
                                 $schedules_depart[$k][$i]['id_product'] = $id_product;

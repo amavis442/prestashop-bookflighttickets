@@ -27,27 +27,12 @@ class BookingInventory extends ObjectModel
             'seats' => array(
                 'type' => self::TYPE_INT,
             ),
-            'modified' => array(
+            'date_upd' => array(
                 'type' => self::TYPE_DATE
             ),
-            'created' => array(
+            'date_add' => array(
                 'type' => self::TYPE_DATE
             ),
         ),
     );
-
-    public function add($autodate = true, $null_values = false)
-    {
-        $this->created = date('Y-m-d H:i:s');
-        $this->modified = date('Y-m-d H:i:s');
-
-        return parent::add($autodate, $null_values);
-    }
-
-    public function update($null_values = false)
-    {
-        $this->modified = date('Y-m-d H:i:s');
-        return parent::update($null_values);
-    }
-
 }

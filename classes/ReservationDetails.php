@@ -89,20 +89,6 @@ class ReservationDetails extends ObjectModel
         ),
     );
 
-    public function add($autodate = true, $null_values = false)
-    {
-        $this->created = date('Y-m-d H:i:s');
-        $this->modified = date('Y-m-d H:i:s');
-
-        return parent::add($autodate, $null_values);
-    }
-
-    public function update($null_values = false)
-    {
-        $this->modified = date('Y-m-d H:i:s');
-        return parent::update($null_values);
-    }
-
     /**
      * 
      * @param int $id_cart
