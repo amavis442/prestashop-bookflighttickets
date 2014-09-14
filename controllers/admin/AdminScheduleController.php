@@ -202,7 +202,7 @@ class AdminScheduleController extends ModuleAdminController
         $sql = 'select id_inventory,CONCAT(designation," - ",seats) as descr FROM ' . _DB_PREFIX_ . Inventory::$definition['table'];
         $inventory = Db::getInstance()->executeS($sql);
 
-        $sql = 'select id_route,id_location_1,id_location_2 FROM ' . _DB_PREFIX_ . Route::$definition['table'];
+        $sql = 'select id_route,id_location_1, id_location_2 FROM ' . _DB_PREFIX_ . Route::$definition['table'];
 
         $routes = Db::getInstance()->executeS($sql);
         $finalRoutes = array();
@@ -221,7 +221,7 @@ class AdminScheduleController extends ModuleAdminController
         $price = '00.00';
         if ($id_product) {
             $product = new Product($id_product);
-            $price = $product->price;
+            $price = $product->getPrice(); //price;
         }
         $obj->price = round($price, 2);
 
@@ -312,32 +312,8 @@ class AdminScheduleController extends ModuleAdminController
     public function postProcess()
     {
         if (Tools::isSubmit('duplicatebookflighttickets_schedule')) {
-            /* Oude data ophalen */
-            if (!($model = $this->loadObject(true))) {
-                return;
-            }
-            unset($model->id_schedule);
-            unset($model->id);
-            $model->add();
 
-            $id_schedule = Tools::getValue('id_schedule');
-            $sql = 'SELECT id_product FROM ' . _DB_PREFIX_ . ScheduleProduct::$definition['table'] . ' WHERE id_schedule = ' . $id_schedule;
-            $id_product = Db::getInstance()->getValue($sql);
-            $product = new Product($id_product);
-            unset($product->id);
-            unset($product->id_product);
-
-            $product->id_schedule = $model->id;
-            $product->id_category = array($product->id_category_default);
-            $product->add();
-            $product->updateCategories(array_map('intval', $product->id_category));
-
-            $scheduleproduct = new ScheduleProduct();
-            $scheduleproduct->id_schedule = $model->id;
-            $scheduleproduct->id_product = $product->id;
-            $scheduleproduct->save();
-
-            Tools::redirectAdmin($this->context->link->getAdminLink('AdminSchedule') . '&update' . $this->table . '&id_schedule=' . (int) $model->id);
+            $this->_duplicateScheduleAndRedirect();
         }
         parent::postProcess();
 
@@ -348,7 +324,7 @@ class AdminScheduleController extends ModuleAdminController
          * 2. Pas dit dan ook toe
          */
         if (Tools::isSubmit('submitAddbookflighttickets_schedule')) {
-            $id_category = (int) (Configuration::get('PS_BOOKFLIGHTTICKETS_CAT_ID'));
+            $id_category = (int) (Configuration::get('PS_BOOKFLICHTTICKETS_CAT_ID'));
             $id_lang = (int) (Configuration::get('PS_LANG_DEFAULT'));
             $id_schedule = Tools::getValue('id_schedule');
             $sql = 'SELECT id_product FROM ' . _DB_PREFIX_ . ScheduleProduct::$definition['table'] . ' WHERE id_schedule = ' . $id_schedule;
@@ -372,20 +348,23 @@ class AdminScheduleController extends ModuleAdminController
             $price = Tools::getValue('price');
 
             if ($id_product) {
+                // Update product
                 $product = new Product($id_product, false, $id_lang);
                 $product->name[$id_lang] = $kenmerk;
+                $product->link_rewrite[$id_lang] = 'flighttickets';
                 $product->price = $price;
                 $product->save();
                 /* Omdat het allemaal zo moeilijk moet in prestashop, gaan we even de boel zelf goedzetten */
                 $sql = sprintf('UPDATE %s SET name = \'%s\' WHERE id_product = %d AND id_lang = %d AND id_shop = %d', _DB_PREFIX_ . 'product_lang', addslashes($kenmerk), $id_product, $id_lang, 1);
                 Db::getInstance()->execute($sql);
             } else {
+                // Add product
                 $product = new Product();
-                $product->description = array($id_lang => '');
+                $product->description = array($id_lang => 'Flightticket::'.$kenmerk);
                 $product->description_short = array($id_lang => '');
-                $product->link_rewrite = array($id_lang => 'dummy-dummy');
-                $product->name = array($id_lang => '');
-                $product->id_category_default = Configuration::getInt('PS_BOOKFLIGHTTICKETS_CAT_ID');
+                $product->link_rewrite = array($id_lang => 'flighttickets');
+                $product->name = array($id_lang => $kenmerk);
+                $product->id_category_default = $id_category;
                 //$product->id_category = array(47);
                 $product->id_category = array($product->id_category_default);
                 $product->id_color = array(0);
@@ -408,13 +387,40 @@ class AdminScheduleController extends ModuleAdminController
 
                 $scheduleproduct = new ScheduleProduct();
                 $scheduleproduct->id_schedule = $id_schedule;
-                $scheduleproduct->id_product = $id_product;
+                $scheduleproduct->id_product = $product->id;
                 $scheduleproduct->save();
             }
         }
+    }
 
-        //$this->context->controller->addJS(array(_PS_JS_DIR_.'jquery/plugins/timepicker/jquery-ui-timepicker-addon.js'));
-        //$this->addJS(array(_PS_JS_DIR_.'jquery/plugins/timepicker/jquery-ui-timepicker-addon.js'));
+    private function _duplicateScheduleAndRedirect()
+    {
+        /* Oude data ophalen */
+        if (!($model = $this->loadObject(true))) {
+            return;
+        }
+        unset($model->id_schedule);
+        unset($model->id);
+        $model->add();
+
+        $id_schedule = Tools::getValue('id_schedule');
+        $sql = 'SELECT id_product FROM ' . _DB_PREFIX_ . ScheduleProduct::$definition['table'] . ' WHERE id_schedule = ' . $id_schedule;
+        $id_product = Db::getInstance()->getValue($sql);
+        $product = new Product($id_product);
+        unset($product->id);
+        unset($product->id_product);
+
+        $product->id_schedule = $model->id;
+        $product->id_category = array($product->id_category_default);
+        $product->add();
+        $product->updateCategories(array_map('intval', $product->id_category));
+
+        $scheduleproduct = new ScheduleProduct();
+        $scheduleproduct->id_schedule = $model->id;
+        $scheduleproduct->id_product = $product->id;
+        $scheduleproduct->save();
+
+        Tools::redirectAdmin($this->context->link->getAdminLink('AdminSchedule') . '&update' . $this->table . '&id_schedule=' . (int) $model->id);
     }
 
     public function setMedia()

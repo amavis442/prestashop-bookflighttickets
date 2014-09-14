@@ -47,6 +47,7 @@ class Bookflighttickets extends Module
             $this->_errors[] = $booking_install->getErrorMsg();
             return false;
         }
+        
         return true;
     }
 
@@ -63,6 +64,10 @@ class Bookflighttickets extends Module
             $this->_errors[] = 'Error uninstalling tabs';
             return false;
         }
+        
+        if (Configuration::hasKey('PS_BOOKFLIGHTTICKETS_CAT_ID'))
+                Configuration::deleteByName('PS_BOOKFLIGHTTICKETS_CAT_ID');
+                
         //include_once(_PS_MODULE_DIR_ . '/' . $this->name . '/bookflighttickets_install.php');
         return true;
     }

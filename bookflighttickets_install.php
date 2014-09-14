@@ -254,6 +254,11 @@ class BookFlightTicketsInstall
         return true;
     }
 
+    /**
+     * Create category if not exists and use it for the flighttickets
+     * 
+     * @return boolean
+     */
     private function updateConfiguration()
     {
         $context = Context::getContext();
@@ -265,6 +270,7 @@ class BookFlightTicketsInstall
             $category->name = array((int) Configuration::get('PS_LANG_DEFAULT') => 'Vliegtickets');
             $category->id_parent = Configuration::get('PS_HOME_CATEGORY');
             $category->link_rewrite = array((int) Configuration::get('PS_LANG_DEFAULT') => 'cool-url');
+            $category->description = array((int) Configuration::get('PS_LANG_DEFAULT') => 'Deze categorie wordt gebruikt voor het boeken van vliegtickets in module: bookflighttickets. Let op!!!!: Niet verwijderen.'); 
             $category->add();
 
             //$category->id;
