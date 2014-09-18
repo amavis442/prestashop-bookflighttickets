@@ -17,7 +17,7 @@ class Bookflighttickets extends Module
     {
         $this->name = 'bookflighttickets';
         $this->tab = 'other';
-        $this->version = '0.6';
+        $this->version = '0.7';
         $this->author = 'Patrickswebsite.nl';
         $this->is_needed = 0;
 

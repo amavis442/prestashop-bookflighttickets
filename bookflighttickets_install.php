@@ -271,6 +271,8 @@ class BookFlightTicketsInstall
             $category->id_parent = Configuration::get('PS_HOME_CATEGORY');
             $category->link_rewrite = array((int) Configuration::get('PS_LANG_DEFAULT') => 'cool-url');
             $category->description = array((int) Configuration::get('PS_LANG_DEFAULT') => 'Deze categorie wordt gebruikt voor het boeken van vliegtickets in module: bookflighttickets. Let op!!!!: Niet verwijderen.'); 
+            $category->active = 0;
+            $category->position = 0;
             $category->add();
 
             //$category->id;
