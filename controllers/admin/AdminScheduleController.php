@@ -318,6 +318,13 @@ class AdminScheduleController extends ModuleAdminController
         parent::postProcess();
 
 
+        if (Tools::isSubmit('deletebookflighttickets_schedule')) {
+            $this->_deleteScheduleAndProduct();
+            
+            
+        }
+        
+        
         /* We maken er ook een product van zodat het order systeem werkt. */
         /*
          * 1. Check of record moet worden toegevoegd of aangepast.
@@ -423,6 +430,23 @@ class AdminScheduleController extends ModuleAdminController
         Tools::redirectAdmin($this->context->link->getAdminLink('AdminSchedule') . '&update' . $this->table . '&id_schedule=' . (int) $model->id);
     }
 
+    private function _deleteScheduleAndProduct()
+    {
+        $id_schedule = Tools::getValue('id_schedule');
+        $sql = 'SELECT id_product,id_scheduleproduct FROM ' . _DB_PREFIX_ . ScheduleProduct::$definition['table'] . ' WHERE id_schedule = ' . $id_schedule;
+        $row = Db::getInstance()->getRow($sql);
+        $id_product = $row['id_product'];
+        $id_scheduleproduct = $row['id_scheduleproduct'];
+        
+        $product = new Product($id_product);
+        $product->delete();
+        
+        $scheduleproduct = new ScheduleProduct($id_scheduleproduct);
+        $scheduleproduct->delete();
+    }    
+    
+    
+    
     public function setMedia()
     {
         $this->addJquery();
@@ -446,5 +470,5 @@ class AdminScheduleController extends ModuleAdminController
 
         return $helper->displayDuplicateLink($token, $id);
     }
-
+    
 }
